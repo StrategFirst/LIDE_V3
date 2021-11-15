@@ -1,9 +1,15 @@
 import axios from "../configs/axios-config";
 
-function get(projectid) {
-  return axios.get(`/project/${projectid}`);
+// Retourne un projet
+async function get(projectid) {
+  return await fetch(`http://localhost:10000/api/v1/project/${projectid}`,{
+		method:'GET',
+		headers: {'Content-Type': 'application/json'},
+  });
+  //return axios.get(`/project/${projectid}`);
 }
 
+// Créer un projet
 async function create(projectname) {
   const data = {
     projectname: projectname,
@@ -16,6 +22,7 @@ async function create(projectname) {
   /*return axios.post("/project", data);*/
 }
 
+// Supprime un projet
 async function remove(projectid) {
   return await fetch(`http://localhost:10000/api/v1/project/${projectid}`,{
 		method:'DELETE',
@@ -24,6 +31,7 @@ async function remove(projectid) {
   //axios.delete(`/project/${projectid}`);
 }
 
+// Renomme un fichier
 async function rename(projectid, newprojectname) {
   const data = {
     newprojectname: newprojectname,

@@ -1,5 +1,6 @@
 import axios from "../configs/axios-config";
 
+// Retourne un fichier sélectionné
 async function get(fileid) {
   return await fetch(`http://localhost:10000/api/v1/file/${fileid}`,{
 		method:'GET',
@@ -8,6 +9,7 @@ async function get(fileid) {
   //return axios.get(`/file/${fileid}`);
 }
 
+// Crée un fichier et l'affecte à un projet
 async function create(projectid, filename, extension) {
   const data = {
     projectid: projectid,
@@ -22,6 +24,7 @@ async function create(projectid, filename, extension) {
   //return axios.post("/file", data);
 }
 
+// Supprime un fichier
 async function remove(fileid) {
   return await fetch(`http://localhost:10000/api/v1/file/${fileid}`,{
 		method:'DELETE',
@@ -30,6 +33,7 @@ async function remove(fileid) {
   //return axios.delete(`/file/${fileid}`);
 }
 
+// Renomme un fichier
 async function rename(fileid, newfilename) {
   const data = {
     newfilename: newfilename,
@@ -42,6 +46,7 @@ async function rename(fileid, newfilename) {
   //return axios.put(`/file/${fileid}?rename=true`, data);
 }
 
+// Sauvegarde l'état du fichier dans la base de données
 async function save(fileid, content) {
   const data = {
     content: content,
@@ -54,6 +59,7 @@ async function save(fileid, content) {
   //return axios.put(`/file/${fileid}?save=true`, data);
 }
 
+// Exécute un fichier
 async function execute(fileid) {
   return await fetch(`http://localhost:10000/api/v1/execute/${fileid}`,{
 		method:'GET',

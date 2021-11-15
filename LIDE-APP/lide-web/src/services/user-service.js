@@ -1,17 +1,23 @@
 import axios from "../configs/axios-config";
 
-function get() {
-  return axios.get('/user');
+async function get() {
+  return await fetch(`http://localhost:10000/api/v1/user`,{
+		method:'GET',
+		headers: {'Content-Type': 'application/json'},
+  });
+  //return axios.get('/user');
 }
 
+// Requete pour récupérer les projets créés par l'utilisateur
 async function getUserProjects() {
-  //return axios.get("/user/projects");
   return await fetch('http://localhost:10000/api/v1/user/projects',{
 		method:'GET',
 		headers: {'Content-Type': 'application/json'}
   });
+    //return axios.get("/user/projects");
 }
 
+// Créer un utilisateur
 async function createUser(username) {
   console.log("username dans les routes fronts create user : " + username);
   //const request = new XMLHttpRequest();

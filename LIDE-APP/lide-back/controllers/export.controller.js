@@ -35,11 +35,12 @@ exports.getExport = async (req, res) => {
 
 execSync('zip -r /lide-export/'+username + '/' + username +'.zip /lide-export/' + username + '/');
 
+res.download("/lide-export/" + username + '/' + username+".zip");
 
 //on nettoie les fichiers 
 exec('sleep 3 && rm -Rf /lide-export/'+username);
 
-res.download("/lide-export/" + username + '/' + username+".zip");
+
 
 }catch (error) {
     console.error("probleme sur le zip' :"+error);

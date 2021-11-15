@@ -13,12 +13,19 @@ ws.on('connection', function connection(ws) {
   let totalOutputLength = 0;
 
   ws.on('message', function incoming(input) {
+    console.log("> 1");
     if (firstMessage) {
       containerId = input;
-      console.log("containerid " + containerId);
+      console.log("containerid ");
+      console.log( containerId );
+      try{ 
+        dockerSocket = new WebSocket('ws://localhost:10001/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
+      }
+      catch(error){
+        console.log("------------------------------------------------------------------------------------------------------");
+        console.log(error.toString("urf-8"));
 
-      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
-
+      }
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");
         dockerSocket.send("\n");
@@ -26,6 +33,7 @@ ws.on('connection', function connection(ws) {
 
       var limitReached = false;
       dockerSocket.on('message', function incoming(output) {
+        console.log("> 2");
         if (!limitReached) {
           totalOutputLength += output.length;
           if (totalOutputLength < 5000000) {
@@ -44,6 +52,7 @@ ws.on('connection', function connection(ws) {
       });
 
       dockerSocket.on('close', function close() {
+        console.log("> 3");
         console.log('> disconnected from docker');
         ws.close();
       });

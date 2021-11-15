@@ -43,7 +43,7 @@ exports.execute = async (req, res) => {
 
     // Supression d'un potentiel précedent container
     try {
-      execSync('docker rm --force ' + containerName);
+      execSync('docker container rm --force ' + containerName);
     } catch (error) {
       console.error(error);
     }
@@ -52,6 +52,8 @@ exports.execute = async (req, res) => {
     var img;
     var startCommand;
     var TIMEOUT_VALUE = process.env.TIMEOUT_VALUE;
+
+    const checkIfImageExist = (img) => execSync(`docker images | grep ${img} | wc -l`) == '1';
 
     switch (extension) {
       case 'cpp':
@@ -76,17 +78,18 @@ exports.execute = async (req, res) => {
 
     // Lancement du conteneur
     console.debug(startCommand);
+    if(!checkIfImageExist(img)) 
+      execSync('chmod +x images/build_images.sh && cd images && ./build_images.sh');
     execSync(startCommand);
 
     // Récupération de l'id du conteneur
     containerId = execSync('docker inspect --format=\'{{.Id}}\' ' + containerName).toString();
     containerId = containerId.substr(0, containerId.length - 1);
+    res.status(200).json({ containerid: containerId });
   } catch (error) {
     console.error(error);
     res.status(500).json(error);
   }
-
-  res.status(200).json({ containerid: containerId });
 }
 
 async function constructFs(project, username, res) {

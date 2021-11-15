@@ -35,7 +35,7 @@ router.delete("/file/:fileid", ensureAuthenticated, file.delete);
 router.put("/file/:fileid", ensureAuthenticated, file.update);
 
 // Route de compilation & exécution
-router.post("/execute/:fileid", ensureAuthenticated, execution.execute);
+router.get("/execute/:fileid", ensureAuthenticated, execution.execute);
 // Route d'arrêt de l'exécution
 router.post("/killexec", ensureAuthenticated, execution.killExec);
 

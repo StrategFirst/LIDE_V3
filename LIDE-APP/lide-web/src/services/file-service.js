@@ -56,7 +56,7 @@ async function save(fileid, content) {
 
 async function execute(fileid) {
   return await fetch(`http://localhost:10000/api/v1/execute/${fileid}`,{
-		method:'POST',
+		method:'GET',
 		headers: {'Content-Type': 'application/json'}
   });
   //return axios.post(`/execute/${fileid}`);

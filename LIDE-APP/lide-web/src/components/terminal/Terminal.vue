@@ -39,7 +39,8 @@ export default {
 			}
 
 			// Création d'un socket vers le wss
-			this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
+			//this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
+            this.socket = new WebSocket('ws:localhost:10001');
 
 			this.socket.onclose = () => {
 				this.terminal.writeln("");

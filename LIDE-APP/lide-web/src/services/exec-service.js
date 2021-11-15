@@ -1,7 +1,11 @@
 import axios from "../configs/axios-config";
 
-function killExecution() {
-    return axios.post(`/killexec`)
+async function killExecution() {
+    return await fetch('http://localhost:10000/api/v1/killexec',{
+		method:'POST',
+		headers: {'Content-Type': 'application/json'}
+    });
+    //return axios.post(`/killexec`)
 }
 
 export default {

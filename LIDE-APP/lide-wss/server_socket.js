@@ -15,20 +15,18 @@ ws.on('connection', function connection(ws) {
   ws.on('message', function incoming(input) {
     console.log("> 1");
     if (firstMessage) {
+      console.log("( " + input + ")");
       containerId = input;
-      console.log("containerid ");
-      console.log( containerId );
       try{ 
-        dockerSocket = new WebSocket('ws://localhost:10001/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
+        dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
+        console.log(dockerSocket);
       }
-      catch(error){
-        console.log("------------------------------------------------------------------------------------------------------");
+      catch(error){     
         console.log(error.toString("urf-8"));
-
       }
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");
-        dockerSocket.send("\n");
+        //dockerSocket.send("\n");
       });
 
       var limitReached = false;

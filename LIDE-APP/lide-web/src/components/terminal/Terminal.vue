@@ -53,7 +53,7 @@ export default {
 			};
 
 			this.socket.onopen = () => {
-				this.socket.send(containerId);
+				this.socket.send(Object.values(containerId)[0]);
 			};
 
 			// Liaison socket-terminal

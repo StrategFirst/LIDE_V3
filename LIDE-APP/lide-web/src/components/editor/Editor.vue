@@ -47,7 +47,9 @@
 							v-model="tab.file.content"
 							:options="cmOptions"
 							@ready="onNewEditor('cmEditor-' + tab.id, tab)"
+							@focus="onCmFocus"
 							@input="onCodeChange($event, tab)"
+							
 						/>
 					</v-col>
 					<div class="group-btn" v-show="checkIfTabOpened()">
@@ -135,8 +137,14 @@ import "codemirror/addon/selection/active-line.js";
 // auto close backets
 import "codemirror/addon/edit/closebrackets.js";
 // basic auto-complete
-import "codemirror/addon/hint/show-hint.js";
 import "codemirror/addon/hint/anyword-hint.js";
+import 'codemirror/addon/hint/css-hint.js';
+import 'codemirror/addon/hint/html-hint.js';
+import 'codemirror/addon/hint/javascript-hint.js';
+import 'codemirror/addon/hint/show-hint.css';
+import 'codemirror/addon/hint/show-hint.js';
+import 'codemirror/addon/hint/sql-hint.js';
+import 'codemirror/addon/hint/xml-hint.js';
 // highlight mathcin brackets
 import "codemirror/addon/edit/matchbrackets.js";
 // foldGutter
@@ -150,6 +158,7 @@ import "codemirror/addon/fold/markdown-fold.js";
 import "codemirror/addon/fold/xml-fold.js";
 // autocomplete
 import "codemirror/addon/hint/show-hint.js";
+import "codemirror/addon/hint/show-hint.css";
 // import base style
 import "codemirror/lib/codemirror.css";
 // import theme style
@@ -218,6 +227,11 @@ import "codemirror/theme/zenburn.css";
 import FileService from "../../services/file-service";
 import { mapState } from "vuex";
 
+import { cpp_dict } from "../../dictionaries/cpp_dict";
+import { python_dict } from "../../dictionaries/python_dict";
+import { java_dict } from "../../dictionaries/java_dict";
+
+
 export default {
 	components: {
 		codemirror,
@@ -242,6 +256,7 @@ export default {
 			codemirrorHeight: 0,
 			dialogFileNotSaved: false,
 			tabToClose: null,
+			autoCompleteDictionary: []
 		};
 	},
 	computed: {
@@ -338,7 +353,45 @@ export default {
 				})
 				.then(() => this.setEditorSettings(tab));
 		},
+		//when the CodeMirror element is focused, define what hints can be shown
+		onCmFocus(cm){
 
+			var dictionary = this.dictionary;
+
+			cm.on('keypress', () => {//any time any key is pressed (while CodeMirror is focused)
+				var options = {
+					hint: function() {
+						var cur = cm.getCursor();
+						var curLine = cm.getLine(cur.line);
+						var start = cur.ch;
+						var end = start;
+						while (end < curLine.length && /[\w$]/.test(curLine.charAt(end))) ++end;
+						while (start && /[\w$]/.test(curLine.charAt(start - 1))) --start;
+						var curWord = start !== end && curLine.slice(start, end); //determine what the current word is
+
+						var regex = new RegExp('^' + curWord, 'i');
+
+						var from = cm.getDoc().posFromIndex(start); //determine what postiton to insert the hint
+						var to = cm.getDoc().posFromIndex(end);
+						from.line = cur.line;
+						to.line = cur.line;
+						from.ch = start;
+						to.ch = end;
+
+						return {
+							list: (!curWord ? [] : dictionary.filter(function(item) { //filter words
+								return item.match(regex);
+							})).sort(),
+							from: from,
+							to: to,
+						};
+					},
+					completeSingle: false,
+					alignWithWord: true
+				};
+				cm.showHint(options); //show hints
+			});
+		},
 		// en cas d'input dans l'éditeur, on modifier le contenu du fichier associé (pas de sauvegarde bdd)
 		onCodeChange(newCode, tab) {
 			this.$store.dispatch("tab/setNewContent", {
@@ -354,15 +407,19 @@ export default {
 				switch (tab.file.extension) {
 					case ".cpp":
 						codemirror.setOption("mode", "text/x-c++src");
+						this.dictionary = cpp_dict;
 						break;
 					case ".h":
 						codemirror.setOption("mode", "text/x-c++src");
+						this.dictionary = cpp_dict;
 						break;
 					case ".py":
 						codemirror.setOption("mode", "text/x-python");
+						this.dictionary = python_dict;
 						break;
 					case ".java":
 						codemirror.setOption("mode", "text/x-java");
+						this.dictionary = java_dict;
 						break;
 					default:
 						break;

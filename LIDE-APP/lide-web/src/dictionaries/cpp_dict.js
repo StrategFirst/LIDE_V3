@@ -1,4 +1,4 @@
-export const python_dict = [
+export const cpp_dict = [
     'auto',
     'break',
     'case',

@@ -14,22 +14,29 @@ ws.on('connection', function connection(ws) {
 
   ws.on('message', function incoming(input) {
     console.log("> 1");
-    if (firstMessage) {
-      console.log("( " + input + ")");
-      containerId = input;
-      try{ 
-        dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
-        console.log(dockerSocket);
-      }
-      catch(error){     
-        console.log(error.toString("urf-8"));
-      }
+    if(firstMessage) {
+      console.log(input.toString("utf8"));
+      containerId = input.toString("utf8");
+      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
+      
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");
-        //dockerSocket.send("\n");
+        dockerSocket.send("\n");
       });
 
-      var limitReached = false;
+      dockerSocket.on('message', function incoming(output) {
+        ws.send(output);
+        console.log("from docker : " + output);
+      });
+     
+      dockerSocket.on('close', function close() {
+        console.log('> disconnected from docker');
+        ws.close();
+      });
+
+      firstMessage = false;
+
+      /*var limitReached = false;
       dockerSocket.on('message', function incoming(output) {
         console.log("> 2");
         if (!limitReached) {
@@ -47,15 +54,15 @@ ws.on('connection', function connection(ws) {
             delete dockerSocket;
           }
         }
-      });
+      });*/
 
-      dockerSocket.on('close', function close() {
+      /*dockerSocket.on('close', function close() {
         console.log("> 3");
         console.log('> disconnected from docker');
         ws.close();
       });
 
-      firstMessage = false;
+      firstMessage = false;*/
     }
     else {
       dockerSocket.send(input);

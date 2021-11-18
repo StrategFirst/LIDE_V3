@@ -10,49 +10,25 @@ ws.on('connection', function connection(ws) {
   let dockerSocket;
   let containerId;
   let firstMessage = true;
-  let totalOutputLength = 0;
 
   ws.on('message', function incoming(input) {
     console.log("> 1");
-    if (firstMessage) {
-      containerId = input;
-      console.log("containerid ");
-      console.log( containerId );
-      try{ 
-        dockerSocket = new WebSocket('ws://localhost:10001/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
-      }
-      catch(error){
-        console.log("------------------------------------------------------------------------------------------------------");
-        console.log(error.toString("urf-8"));
-
-      }
+    if(firstMessage) {
+      console.log(input.toString("utf8"));
+      containerId = input.toString("utf8");
+      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
+      
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");
         dockerSocket.send("\n");
       });
 
-      var limitReached = false;
       dockerSocket.on('message', function incoming(output) {
-        console.log("> 2");
-        if (!limitReached) {
-          totalOutputLength += output.length;
-          if (totalOutputLength < 5000000) {
-            ws.send(output);
-            console.log("from docker : " + output);
-          } else {
-            console.log("> too much outputs detected");
-            limitReached = true;
-
-            ws.send(" -- Détection de boucle infinie. -- ");
-            dockerSocket.close();
-            ws.close();
-            delete dockerSocket;
-          }
-        }
+        ws.send(output);
+        console.log("from docker : " + output);
       });
-
+     
       dockerSocket.on('close', function close() {
-        console.log("> 3");
         console.log('> disconnected from docker');
         ws.close();
       });

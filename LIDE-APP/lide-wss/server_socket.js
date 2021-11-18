@@ -10,7 +10,6 @@ ws.on('connection', function connection(ws) {
   let dockerSocket;
   let containerId;
   let firstMessage = true;
-  let totalOutputLength = 0;
 
   ws.on('message', function incoming(input) {
     console.log("> 1");
@@ -35,34 +34,6 @@ ws.on('connection', function connection(ws) {
       });
 
       firstMessage = false;
-
-      /*var limitReached = false;
-      dockerSocket.on('message', function incoming(output) {
-        console.log("> 2");
-        if (!limitReached) {
-          totalOutputLength += output.length;
-          if (totalOutputLength < 5000000) {
-            ws.send(output);
-            console.log("from docker : " + output);
-          } else {
-            console.log("> too much outputs detected");
-            limitReached = true;
-
-            ws.send(" -- Détection de boucle infinie. -- ");
-            dockerSocket.close();
-            ws.close();
-            delete dockerSocket;
-          }
-        }
-      });*/
-
-      /*dockerSocket.on('close', function close() {
-        console.log("> 3");
-        console.log('> disconnected from docker');
-        ws.close();
-      });
-
-      firstMessage = false;*/
     }
     else {
       dockerSocket.send(input);

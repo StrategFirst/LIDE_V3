@@ -79,7 +79,7 @@ exports.execute = async (req, res) => {
     // Lancement du conteneur
     console.debug(startCommand);
     if(!checkIfImageExist(img)) 
-      execSync('chmod +x images/build_images.sh && cd images && ./build_images.sh -i');
+      execSync('chmod +x images/build_images.sh && cd images && ./build_images.sh');
     execSync(startCommand);
 
     // Récupération de l'id du conteneur

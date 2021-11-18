@@ -37,7 +37,7 @@ export default {
 				this.terminal.reset();
 			}
 			// this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
-			this.socket = new WebSocket("ws://localhost:10001/");
+			this.socket = new WebSocket("ws:localhost:10001/");
 			this.socket.onopen = () => {
 				this.socket.send(Object.values(containerId)[0]);
 			};

@@ -54,3 +54,16 @@ exports.getProjects = async (req, res) => {
         });
       });
 };
+
+exports.getProjectsFrom = async (req, res) => {
+  const username = req.body.usernameFrom;
+  UserService.getProjects(username)
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({
+          error: err.message,
+        });
+      });
+};

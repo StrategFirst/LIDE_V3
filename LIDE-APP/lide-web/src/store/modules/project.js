@@ -26,6 +26,13 @@ const actions = {
             })
     },
 
+    async fetchProjectsFromUser({commit}, idUser){
+        await UserService.getProjectsFromUser(idUser)
+            .then(res => {
+                res.json().then(value => commit("SET_PROJECTS", value));
+            })
+    },
+
     async create({ dispatch }, projectname) {
         await ProjectService.create(projectname)
             .then(() => {

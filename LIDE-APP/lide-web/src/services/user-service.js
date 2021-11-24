@@ -38,8 +38,18 @@ async function createUser(username) {
   
 }
 
+async function getAll() {
+  
+  return await fetch('http://localhost:10000/api/v1/user/all',{
+		method:'GET',
+		headers: {'Content-Type': 'application/json'}
+  });
+}
+
+
 export default {
   get,
+  getAll,
   getUserProjects,
   createUser
 };

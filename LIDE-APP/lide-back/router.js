@@ -21,6 +21,7 @@ router.get("/user", ensureAuthenticated, user.get);
 router.post("/user", ensureAuthenticated, user.post);
 router.delete("/user", ensureAuthenticated, user.delete);
 router.get("/user/projects", ensureAuthenticated, user.getProjects);
+router.get("/user/all", ensureAuthenticated, user.getAll);
 
 // Routes de gestion des projets
 router.post("/project", ensureAuthenticated, project.create);

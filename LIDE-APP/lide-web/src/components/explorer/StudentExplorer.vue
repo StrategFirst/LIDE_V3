@@ -3,8 +3,8 @@
         <v-card class="px-5">
             <v-card-title>Liste des élèves</v-card-title>
             <v-select v-model="test"
-            :items="students"
-            item-text="name"
+            :items="users"
+            item-text="username"
             label="Choisissez"
             outlined>
             </v-select>
@@ -15,26 +15,46 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 
 export default {
+
 	data() {
 		return {
             test: '',
-            students: [
-                {ID:'1', name: 'Horion Antoine'},
-                {ID:'2', name: 'UnJean Antoine'},
-                {ID:'3', name: 'UnAutreJean Antoine'},
-            ],
 		};
 	},
 	computed: {
-		
+		...mapState({
+			users: (state) => state.user.users,
+		}),
 	},
 	methods: {
         getProject: function(){
             this.test = 'Ok'
+        },
+
+        getAllUsers: function(){
+            this.$store
+				.dispatch("user/fetchUsers")
+				.catch((error) => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Un problème est survenue.",
+						couleur: "error",
+					});
+				})
+				.then(() => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Récupération des utilisateurs, Ok !",
+						couleur: "success",
+					});
+				});
         }
-    }
+    },
+
+    mounted() {
+        this.getAllUsers();
+    },
 };
 
 </script>

@@ -18,7 +18,7 @@ export default new Vuetify({
         body: "#151515",
         bodysecondary: '#363636',
         appbar: "#2455b6"
-      }
+      },
     },
   },
 });

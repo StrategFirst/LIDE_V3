@@ -26,11 +26,24 @@
 		</v-card>
 		<v-row justify="center">
 			<v-col cols="10">
+				<!--
 				<v-switch
 					v-model="darkModeStatus"
 					label="Dark Mode"
 					@change="darkMode"
 				></v-switch>
+				-->
+				<v-select 
+					v-model="selectedIdeTheme"
+					:items="selectIde"
+					dense
+					outlined
+					label="Thème de l'IDE"
+					@change="setIdeTheme"
+				></v-select>
+				<v-btn @click="colorMode">Appliquer</v-btn>
+				<br />
+				<br />
 				<v-select
 					v-model="selectedTheme"
 					:items="themes"
@@ -66,7 +79,10 @@ export default {
 			editorTheme: (state) => state.settings.theme,
 			indentation: (state) => state.settings.indentation,
 			darkmode: (state) => state.settings.darkMode,
+			colormode: (state) => state.settings.colorMode,
 			themes: (state) => state.settings.themes,
+			ideTheme: (state) => state.settings.ideTheme,
+			selectIde: (state) => state.settings.selectIde,
 		}),
 		settingDrawerStatus: {
 			get() {
@@ -79,6 +95,14 @@ export default {
 		selectedTheme: {
 			get() {
 				return this.editorTheme;
+			},
+			set(val) {
+				return val;
+			},
+		},
+		selectedIdeTheme: {
+			get() {
+				return this.ideTheme;
 			},
 			set(val) {
 				return val;
@@ -106,12 +130,20 @@ export default {
 			this.$store.dispatch("drawer/closeSettingDrawer");
 		},
 
+		setColorMode(value) {
+			this.$store.dispatch("settings/setColorMode", value);
+		},
+
 		setDarkMode(value) {
 			this.$store.dispatch("settings/setDarkMode", value);
 		},
 
 		setEditorTheme(value) {
 			this.$store.dispatch("settings/setTheme", value);
+		},
+
+		setIdeTheme(value) {
+			this.$store.dispatch("settings/setIdeTheme", value);
 		},
 
 		setTerminalTheme(value) {
@@ -121,15 +153,71 @@ export default {
 		setIndentation(value) {
 			this.$store.dispatch("settings/setIndentation", value);
 		},
-
+/*
 		darkMode() {
 			this.setDarkMode((this.$vuetify.theme.dark = !this.$vuetify.theme.dark));
 			if (this.$store.state.settings.darkMode) {
 				this.setEditorTheme("base16-dark");
 				this.setTerminalTheme("#151515");
+				this.setIdeTheme("dark");
 			} else {
 				this.setEditorTheme("default");
 				this.setTerminalTheme("#ffffff");
+				this.setIdeTheme("light");
+			}
+		},
+*/
+		colorMode() {
+			this.setDarkMode(this.$vuetify.theme.dark = !this.$vuetify.theme.dark);
+			if (this.$store.state.settings.ideTheme == "light") {
+
+				this.$vuetify.theme.themes.dark.body = "#151515";
+				this.$vuetify.theme.themes.dark.bodysecondary = "#F5F5F5";
+				this.$vuetify.theme.themes.dark.appbar = "#2455b6";
+				this.$vuetify.theme.themes.dark.primary = "#2455b6";
+				this.$vuetify.theme.themes.dark.secondary = "#616161";
+				this.$vuetify.theme.themes.dark.error = "#b71c1c";
+
+
+				this.$vuetify.theme.themes.light.body = "#151515";
+				this.$vuetify.theme.themes.light.bodysecondary = "#F5F5F5";
+				this.$vuetify.theme.themes.light.appbar = "#2455b6";
+				this.$vuetify.theme.themes.light.primary = "#2455b6";
+				this.$vuetify.theme.themes.light.secondary = "#616161";
+				this.$vuetify.theme.themes.light.error = "#b71c1c";
+
+				this.setEditorTheme("default");
+				this.setTerminalTheme("#151515");
+				this.setIdeTheme("light");
+				this.setColorMode("light");
+			} else if (this.$store.state.settings.ideTheme == "dark") {
+				
+				this.$vuetify.theme.themes.dark.body = "#151515";
+				this.$vuetify.theme.themes.dark.bodysecondary = "#363636";
+				this.$vuetify.theme.themes.dark.appbar = "#2455b6";
+
+				this.$vuetify.theme.themes.light.body = "#151515";
+				this.$vuetify.theme.themes.light.bodysecondary = "#363636";
+				this.$vuetify.theme.themes.light.appbar = "#2455b6";
+				
+				this.setEditorTheme("base16-dark");
+				this.setTerminalTheme("#ffffff");
+				this.setIdeTheme("dark");
+				this.setColorMode("dark");
+			} else {
+				
+				this.$vuetify.theme.themes.dark.body = "#151515";
+				this.$vuetify.theme.themes.dark.bodysecondary = "#eb4c4c";
+				this.$vuetify.theme.themes.dark.appbar = "#eb7171";
+
+				this.$vuetify.theme.themes.light.body = "#151515";
+				this.$vuetify.theme.themes.light.bodysecondary = "#eb4c4c";
+				this.$vuetify.theme.themes.light.appbar = "#eb7171";
+				
+				this.setEditorTheme("default");
+				this.setTerminalTheme("#ffffff");
+				this.setIdeTheme("red");
+				this.setColorMode("red");
 			}
 		},
 	},

@@ -11,6 +11,16 @@ exports.get = (req, res) => {
       });
 };
 
+exports.getAll = (req, res) => {
+  UserService.getAll()
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
+      });
+};
+
 exports.post = (req, res) => {
   const username = req.username;
   UserService.NewUser(username)
@@ -34,6 +44,19 @@ exports.delete = (req, res) => {
 };
 exports.getProjects = async (req, res) => {
   const username = req.username;
+  UserService.getProjects(username)
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({
+          error: err.message,
+        });
+      });
+};
+
+exports.getProjectsFrom = async (req, res) => {
+  const username = req.body.usernameFrom;
   UserService.getProjects(username)
       .then((result) => {
         res.status(200).json(result);

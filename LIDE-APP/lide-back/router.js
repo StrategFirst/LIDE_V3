@@ -21,6 +21,8 @@ router.get("/user", ensureAuthenticated, user.get);
 router.post("/user", ensureAuthenticated, user.post);
 router.delete("/user", ensureAuthenticated, user.delete);
 router.get("/user/projects", ensureAuthenticated, user.getProjects);
+router.post("/user/projectsFrom", ensureAuthenticated, user.getProjectsFrom);
+router.get("/user/all", ensureAuthenticated, user.getAll);
 
 // Routes de gestion des projets
 router.post("/project", ensureAuthenticated, project.create);
@@ -52,7 +54,7 @@ async function ensureAuthenticated(req, res, next) {
   const session = req.headers.session;
   //const username = await SessionService.validateSession(session);
   //if (!username) res.status(401).json("User is not authenticated");
-  req.username = "user1";
+  req.username = "TEST";
   next();
 }
 

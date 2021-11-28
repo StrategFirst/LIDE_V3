@@ -2,6 +2,7 @@ import service from "../../services/user-service";
 
 const state = () => ({
     username: "",
+    users: []
 });
 
 const getters = {
@@ -18,12 +19,22 @@ const actions = {
         console.log("user du createUser du store " + context.getters.username);
         localStorage.username = context.getters.username;
         service.createUser(context.getters.username);
-    }
+    },
+    async fetchUsers({ commit }) {
+        await service.getAll()
+            .then(res => {
+                res.json().then(value => commit("SET_USERS", value));
+            })
+    },
 }
 
 const mutations = {
     SET_USERNAME(state, username){
         state.username = username;
+    },
+
+    SET_USERS(state, users){
+        state.users = users;
     }
 }
 

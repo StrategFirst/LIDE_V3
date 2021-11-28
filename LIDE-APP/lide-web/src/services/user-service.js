@@ -17,6 +17,17 @@ async function getUserProjects() {
     //return axios.get("/user/projects");
 }
 
+async function getProjectsFromUser(idUser) {
+  return await fetch('http://localhost:10000/api/v1/user/projectsFrom',{
+		method:'POST',
+		headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      usernameFrom: idUser
+    })
+  });
+    //return axios.get("/user/projects");
+}
+
 // Créer un utilisateur
 async function createUser(username) {
   console.log("username dans les routes fronts create user : " + username);
@@ -38,8 +49,19 @@ async function createUser(username) {
   
 }
 
+async function getAll() {
+  
+  return await fetch('http://localhost:10000/api/v1/user/all',{
+		method:'GET',
+		headers: {'Content-Type': 'application/json'}
+  });
+}
+
+
 export default {
   get,
+  getAll,
   getUserProjects,
+  getProjectsFromUser,
   createUser
 };

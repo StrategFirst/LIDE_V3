@@ -14,13 +14,13 @@ const actions = {
             .then(res => {
                 return res.json().then(file => {
                     dispatch("project/fetchProjects", null, { root: true }); 
-                    return file._id;  
-                })
-            });     
+                    return file._id; 
+                });
+            });   
     },
 
-    async rename({ dispatch }, { fileid, newfilename }) {
-        await FileService.rename(fileid, newfilename)
+    async rename({ dispatch }, { fileid, newfilename, extension }) {
+        await FileService.rename(fileid, newfilename, extension)
             .then(async () => {
                 let tab = await dispatch("tab/getTab", fileid, { root: true });
                 dispatch("tab/updateTabFileName", { tab: tab, newfilename: newfilename }, { root: true });

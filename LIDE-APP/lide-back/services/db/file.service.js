@@ -107,7 +107,7 @@ exports.delete = async (username, fileid) => {
  * @return {object} file
  *
  */
-exports.rename = async (username, fileid, newfilename) => {
+exports.rename = async (username, fileid, newfilename, extension) => {
   // get the file
   let file = await this.get(username, fileid).catch((error) => {
     throw error;

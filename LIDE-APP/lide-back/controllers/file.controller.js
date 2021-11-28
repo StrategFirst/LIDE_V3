@@ -16,17 +16,17 @@ exports.get = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  const username = req.username;
-  const projectid = req.body.projectid;
-  const filename = req.body.filename;
-  const extension = req.body.extension;
+  let username = req.username;
+  let projectid = req.body.projectid;
+  let filename = req.body.filename;
+  let extension = req.body.extension;
 
   FileService.create(username, projectid, filename, extension)
       .then((result) => {
         res.status(201).json(result);
       })
-      .catch((err) => {
-        res.status(400).json({error: err.message});
+      .catch((error) => {
+        res.status(400).json({ error });
       });
 };
 
@@ -50,12 +50,13 @@ exports.update = async (req, res) => {
 
   let file = null;
 
-  const rename = req.query.rename;
-  const save = req.query.save;
+  let rename = req.query.rename;
+  let save = req.query.save;
+  let extension = req.body.extension;
 
   if (rename == 'true') {
     const newfilename = req.body.newfilename;
-    file = await FileService.rename(username, fileid, newfilename).catch((err) => {
+    file = await FileService.rename(username, fileid, newfilename, extension).catch((err) => {
       res.status(400).json(err.message);
     });
   }

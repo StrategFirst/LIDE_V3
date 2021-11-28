@@ -312,6 +312,7 @@ export default {
 					.dispatch("project/rename", {
 						projectid: this.selectedProjectId,
 						newprojectname: this.newprojectname,
+						extension: this.extension
 					})
 					.catch((error) => {
 						this.$store.dispatch("notification/notif", {
@@ -347,11 +348,11 @@ export default {
 						});
 					})
 					.then((fileId) => {
-						this.openFile(fileId);
-						this.$store.dispatch("notification/notif", {
-							texte: "Votre fichier a bien été créé.",
-							couleur: "success",
-						});
+							this.openFile(fileId);
+							this.$store.dispatch("notification/notif", {
+								texte: "Votre fichier a bien été créé.",
+								couleur: "success",
+							});
 					});
 				this.$refs.fichierCreateForm.reset();
 				this.dialogCreateFile = false;

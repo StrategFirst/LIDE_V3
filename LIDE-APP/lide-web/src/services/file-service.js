@@ -34,9 +34,10 @@ async function remove(fileid) {
 }
 
 // Renomme un fichier
-async function rename(fileid, newfilename) {
+async function rename(fileid, newfilename, extension) {
   const data = {
     newfilename: newfilename,
+    extension: extension
   };
     return await fetch(`http://localhost:10000/api/v1/file/${fileid}?rename=true`,{
 		method:'PUT',

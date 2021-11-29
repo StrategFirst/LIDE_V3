@@ -1,9 +1,11 @@
 
 const state = () => ({
     darkMode: false,
+    colorMode: "light",
     indentation: 4,
     theme: "base16-dark",
     terminalTheme: "#ffffff",
+    ideTheme: "dark",
     themes: [
         "default",
         "3024-day",
@@ -69,11 +71,21 @@ const state = () => ({
         "yonce",
         "zenburn",
     ],
+    selectIde: [
+        "light",
+        "dark",
+        "orange",
+        "red",
+        "green"
+    ]
 });
 
 const getters = {
     darkMode(state) {
         return state.darkMode;
+    },
+    colorMode(state) {
+        return state.colorMode;
     },
     indentation(state) {
         return state.indentation;
@@ -83,12 +95,22 @@ const getters = {
     },
     terminalTheme(state) {
         return state.terminalTheme;
+    },
+    ideTheme(state) {
+        return state.ideTheme;
+    },
+    ide(state) {
+        return state.ide;
     }
+
 }
 
 const actions = {
     setDarkMode({ commit }, darkMode) {
         commit('SET_DARKMODE', darkMode);
+    },
+    setColorMode({ commit }, colorMode) {
+        commit('SET_COLOR_MODE', colorMode);
     },
     setTheme({ commit }, theme) {
         commit('SET_THEME', theme);
@@ -98,12 +120,18 @@ const actions = {
     },
     setTerminalTheme({commit}, theme) {
         commit('SET_TERMINAL_THEME', theme);
+    },
+    setIdeTheme({ commit }, ideTheme) {
+        commit('SET_IDE_THEME', ideTheme);
     }
 }
 
 const mutations = {
     SET_DARKMODE(state, darkMode) {
         state.darkMode = darkMode;
+    },
+    SET_COLOR_MODE(state, colorMode) {
+        state.colorMode = colorMode;
     },
     SET_THEME(state, theme) {
         state.theme = theme;
@@ -113,6 +141,9 @@ const mutations = {
     },
     SET_TERMINAL_THEME(state, theme) {
         state.terminalTheme = theme;
+    },
+    SET_IDE_THEME(state, ideTheme) {
+        state.ideTheme = ideTheme;
     }
 }
 

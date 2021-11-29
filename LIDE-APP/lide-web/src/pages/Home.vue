@@ -80,9 +80,13 @@
           <v-btn text class="mx-4 white--text">
             <v-icon class="mr-2">mdi-account-box</v-icon>Contact
           </v-btn>
-          <v-btn text class="mx-4 white--text">
+          <v-btn text class="mx-4 white--text" @click="showModalAide">
             <v-icon class="mr-2">mdi-information</v-icon>Aide
           </v-btn>
+          <ModalAide 
+            v-show="isModalAideVisible"
+            @close="closeModalAide"
+          />
         </v-card-text>
 
         <v-card-text class="white--text pt-0 d-flex align-center">
@@ -104,15 +108,28 @@
 </template>
 
 <script>
+import ModalAide from '../components/Modals/ModalAide.vue'
+
 export default {
+  components: {
+    ModalAide,
+  },
+
   data: () => {
     return {
       mobileView: 0,
+      isModalAideVisible: false,
     };
   },
   methods: {
     handleView() {
       this.mobileView = window.innerHeight - 170;
+    },
+    showModalAide() {
+      this.isModalAideVisible = true;
+    },
+    closeModalAide() {
+      this.isModalAideVisible = false;
     },
   },
   created() {

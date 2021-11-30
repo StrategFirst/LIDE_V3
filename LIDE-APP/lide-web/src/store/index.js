@@ -12,6 +12,8 @@ import file from "./modules/file"
 import tab from "./modules/tab"
 import settings from "./modules/settings"
 
+import mail from "./modules/mail"
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -24,6 +26,7 @@ const store = new Vuex.Store({
         file,
         tab,
         settings,
+        mail,
     },
     plugins: [createPersistedState()],
 })

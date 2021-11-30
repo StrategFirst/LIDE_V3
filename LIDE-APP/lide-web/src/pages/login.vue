@@ -24,7 +24,7 @@ export default {
 
   data() {
     return {
-      username: "user1",
+      username: "user2",
     };
   },
   methods: {

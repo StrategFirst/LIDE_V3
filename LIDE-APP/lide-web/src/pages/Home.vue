@@ -72,12 +72,15 @@
           </v-col>
         </v-row>
       </v-container>
+      <modal v-if="revele" @close="revele = false"></modal>
     </v-main>
 
+    
     <v-footer color="primary" class="d-flex justify-center">
       <v-card flat tile class="primary white--text text-center">
         <v-card-text>
-          <v-btn text class="mx-4 white--text">
+        
+          <v-btn text class="mx-4 white--text" v-on:click="openModale">
             <v-icon class="mr-2">mdi-account-box</v-icon>Contact
           </v-btn>
           <v-btn text class="mx-4 white--text">
@@ -104,16 +107,25 @@
 </template>
 
 <script>
+import Modal from './Modal.vue';
 export default {
+  components: { Modal },
   data: () => {
     return {
       mobileView: 0,
+      revele: false
     };
+  },
+  componebt: {
+    'modal': "Modal"
   },
   methods: {
     handleView() {
       this.mobileView = window.innerHeight - 170;
     },
+    openModale(){
+      this.revele = !this.revele;
+    }
   },
   created() {
     this.handleView();

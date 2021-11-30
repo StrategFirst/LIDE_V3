@@ -4,7 +4,7 @@ services:
   # Database
   database-service:
     image: mongo:latest
-    restart: always
+    restart: on-failure:3
     container_name: ${LIDE_CONTAINER_DB}
     volumes:
       - database:/data/db
@@ -25,7 +25,7 @@ services:
       - database-service
     links:
       - database-service
-    restart: always
+    restart: on-failure:3
     container_name: ${LIDE_CONTAINER_BACK}
     hostname: ${LIDE_CONTAINER_BACK}
     volumes:
@@ -52,7 +52,7 @@ services:
   lide-web-service:
     build: ./lide-web
     image: lide-web
-    restart: always
+    restart: on-failure:3
     container_name: ${LIDE_CONTAINER_WEB}
     hostname: ${LIDE_CONTAINER_WEB}
     volumes:
@@ -75,7 +75,7 @@ services:
   lide-wss-service:
     build: ./lide-wss
     image: lide-wss
-    restart: always
+    restart: on-failure:3
     container_name: ${LIDE_CONTAINER_WSS}
     hostname: ${LIDE_CONTAINER_WSS}
     environment:
@@ -86,7 +86,7 @@ services:
     ports:
       - ${LIDE_WSS_PORT}:8090
     entrypoint: node server_socket.js
-    network_mode: host
+    #network_mode: host
 
 volumes:
   database:

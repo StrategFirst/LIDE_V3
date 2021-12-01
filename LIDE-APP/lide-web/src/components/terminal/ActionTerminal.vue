@@ -63,7 +63,7 @@ export default {
     kill() {
       ExecService.killExecution()
         .then(() => {
-          //this.$root.$refs.Terminal.terminal.reset();
+          this.$root.$refs.Terminal.terminal.reset();
           this.$store.dispatch("notification/notif", {
             texte: "Exécution stoppée",
             couleur: "success",

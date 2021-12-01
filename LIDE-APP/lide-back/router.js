@@ -18,6 +18,7 @@ const SessionService = require("./services/security/session.service");
 
 // Route permettant de créer un utilisateur lors de sa première connexion
 router.get("/user", ensureAuthenticated, user.get);
+//(Tanguy) Route pour créer un utilisateur (user1)
 router.post("/user", ensureAuthenticated, user.post);
 router.delete("/user", ensureAuthenticated, user.delete);
 router.get("/user/projects", ensureAuthenticated, user.getProjects);
@@ -54,7 +55,10 @@ async function ensureAuthenticated(req, res, next) {
   const session = req.headers.session;
   //const username = await SessionService.validateSession(session);
   //if (!username) res.status(401).json("User is not authenticated");
-  req.username = "TEST";
+  
+  // Toutes les requêtes se basent sur username étant donnée que le cas est désactivé, 
+  // il n'y a plus de session qui est généré par conséquent il faut indiqué un utilisateur en dur
+  req.username = "user1";
   next();
 }
 

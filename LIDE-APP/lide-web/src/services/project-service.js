@@ -1,6 +1,6 @@
 import axios from "../configs/axios-config";
 
-// Retourne un projet
+//(Tanguy (API fetch)) Retourne un projet
 async function get(projectid) {
   return await fetch(`http://localhost:10000/api/v1/project/${projectid}`,{
 		method:'GET',
@@ -9,7 +9,7 @@ async function get(projectid) {
   //return axios.get(`/project/${projectid}`);
 }
 
-// Créer un projet
+//(Tanguy (API fetch)) Créer un projet
 async function create(projectname) {
   const data = {
     projectname: projectname,
@@ -22,7 +22,7 @@ async function create(projectname) {
   /*return axios.post("/project", data);*/
 }
 
-// Supprime un projet
+//(Tanguy (API fetch)) Supprime un projet
 async function remove(projectid) {
   return await fetch(`http://localhost:10000/api/v1/project/${projectid}`,{
 		method:'DELETE',
@@ -31,7 +31,7 @@ async function remove(projectid) {
   //axios.delete(`/project/${projectid}`);
 }
 
-// Renomme un fichier
+//(Tanguy (API fetch)) Renomme un fichier
 async function rename(projectid, newprojectname) {
   const data = {
     newprojectname: newprojectname,

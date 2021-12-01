@@ -53,6 +53,7 @@ exports.execute = async (req, res) => {
     var startCommand;
     var TIMEOUT_VALUE = process.env.TIMEOUT_VALUE;
 
+    //  fonction qui vérifie si une image de type img existe
     const checkIfImageExist = (img) => execSync(`docker images | grep ${img} | wc -l`) == '1';
 
     switch (extension) {
@@ -78,8 +79,11 @@ exports.execute = async (req, res) => {
 
     // Lancement du conteneur
     console.debug(startCommand);
+
+    // On teste si l'image existée, si ce n'est pas le cas a créé toutes les images en exécutant le fichier ./build_images.sh
     if(!checkIfImageExist(img)) 
       execSync('chmod +x images/build_images.sh && cd images && ./build_images.sh');
+
     execSync(startCommand);
 
     // Récupération de l'id du conteneur

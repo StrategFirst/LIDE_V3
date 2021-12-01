@@ -72,6 +72,7 @@ export default {
   },
   computed: {
     ...mapState({
+      // (Tanguy) On récupére le nom d'utilisateur
       username: (state) => localStorage.getItem("username")
     }),
     initials: function () {

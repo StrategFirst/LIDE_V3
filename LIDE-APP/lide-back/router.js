@@ -10,6 +10,10 @@ const execution = require("./controllers/execution.controller");
 const session = require("./controllers/session.controller");
 const exporter = require("./controllers/export.controller");
 
+const mail = require("./controllers/mail.controller");
+
+
+
 /* ---------------- Security ------------------ */
 
 const SessionService = require("./services/security/session.service");
@@ -50,6 +54,9 @@ router.get("/session", session.session);
 
 // Route de validation du token de session
 router.get("/validateSession", session.validateSession);
+
+//Route pour envoyer le mail
+router.post("/mail", mail.post);
 
 async function ensureAuthenticated(req, res, next) {
   const session = req.headers.session;

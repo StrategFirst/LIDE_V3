@@ -65,7 +65,7 @@ async function ensureAuthenticated(req, res, next) {
   
   // Toutes les requêtes se basent sur username étant donnée que le cas est désactivé, 
   // il n'y a plus de session qui est généré par conséquent il faut indiqué un utilisateur en dur
-  req.username = "user1";
+  req.username = "user2";
   next();
 }
 

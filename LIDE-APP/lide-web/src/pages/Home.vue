@@ -111,11 +111,12 @@
 </template>
 
 <script>
-import ModalAide from '../components/Modals/ModalAide.vue'
+import ModalAide from '../components/Modals/ModalAide.vue';
 import Modal from './Modal.vue';
 export default {
   components: {
     ModalAide,
+    Modal
   },
 
   data: () => {
@@ -124,9 +125,6 @@ export default {
       isModalAideVisible: false,
       revele: false
     };
-  },  
-  componebt: {
-    'modal': "Modal"
   },
   methods: {
     handleView() {

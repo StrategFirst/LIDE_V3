@@ -83,9 +83,13 @@
           <v-btn text class="mx-4 white--text" v-on:click="openModale">
             <v-icon class="mr-2">mdi-account-box</v-icon>Contact
           </v-btn>
-          <v-btn text class="mx-4 white--text">
+          <v-btn text class="mx-4 white--text" @click="showModalAide">
             <v-icon class="mr-2">mdi-information</v-icon>Aide
           </v-btn>
+          <ModalAide 
+            v-show="isModalAideVisible"
+            @close="closeModalAide"
+          />
         </v-card-text>
 
         <v-card-text class="white--text pt-0 d-flex align-center">
@@ -107,21 +111,30 @@
 </template>
 
 <script>
+import ModalAide from '../components/Modals/ModalAide.vue';
 import Modal from './Modal.vue';
 export default {
-  components: { Modal },
+  components: {
+    ModalAide,
+    Modal
+  },
+
   data: () => {
     return {
       mobileView: 0,
+      isModalAideVisible: false,
       revele: false
     };
-  },
-  componebt: {
-    'modal': "Modal"
   },
   methods: {
     handleView() {
       this.mobileView = window.innerHeight - 170;
+    },
+    showModalAide() {
+      this.isModalAideVisible = true;
+    },
+    closeModalAide() {
+      this.isModalAideVisible = false;
     },
     openModale(){
       this.revele = !this.revele;

@@ -26,10 +26,17 @@ const actions = {
             })
     },
 
+    async fetchProjectsFromUser({commit}, idUser){
+        await UserService.getProjectsFromUser(idUser)
+            .then(res => {
+                res.json().then(value => commit("SET_PROJECTS", value));
+            })
+    },
+
     async create({ dispatch }, projectname) {
-        await ProjectService.create(projectname)
-            .then(() => {
+        return await ProjectService.create(projectname).then((res) => {
                 dispatch('fetchProjects');
+                return res;
             })
     },
 
@@ -41,9 +48,9 @@ const actions = {
     },
 
     async rename({ dispatch }, { projectid, newprojectname }) {
-        await ProjectService.rename(projectid, newprojectname)
-            .then(() => {
+        return await ProjectService.rename(projectid, newprojectname).then((res) => {
                 dispatch('fetchProjects');
+                return res;
             })
     },
 

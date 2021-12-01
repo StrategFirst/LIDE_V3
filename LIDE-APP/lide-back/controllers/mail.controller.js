@@ -6,8 +6,9 @@ async function sendNotificationEmail(emailFrom, object, content){
       port: 465,
       secure: true,
       auth: {
-        user: 'barro.juliette@gmail.com',
-        pass: 'GMAIL_PASSWORD'
+        // Il faut indiquer un Email et un mot de passe, tous les messagews du formulaire de contact seront envoyé à cet Email
+        user: '',
+        pass: ''
       }
     });
       

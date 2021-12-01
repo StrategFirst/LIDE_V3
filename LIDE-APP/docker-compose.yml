@@ -86,7 +86,7 @@ services:
     ports:
       - ${LIDE_WSS_PORT}:8090
     entrypoint: node server_socket.js
-    #network_mode: host
+    network_mode: host
 
 volumes:
   database:

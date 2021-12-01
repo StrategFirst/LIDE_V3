@@ -107,7 +107,7 @@ exports.delete = async (username, fileid) => {
  * @return {object} file
  *
  */
-exports.rename = async (username, fileid, newfilename) => {
+exports.rename = async (username, fileid, newfilename, extension) => {
   // get the file
   let file = await this.get(username, fileid).catch((error) => {
     throw error;
@@ -124,7 +124,11 @@ exports.rename = async (username, fileid, newfilename) => {
   });
 
   // check if file named $newfilename already exists in project's files
+  // (Tanguy) j'ai ajouté la comparaison avec l'extension
+  //      ex : main.cpp et main.py est maintenant accepté
   if (files.find((file) => ((file.filename == newfilename) && (file.extension == extension))) == null) {
+    console.log(file.filename + " " + " " + newfilename);
+    console.log(file.extension + " " + " " + extension);
     // if no --> update the filename
     await file.update({ filename: newfilename }).catch((error) => {
       throw error;

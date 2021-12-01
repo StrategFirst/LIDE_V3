@@ -1,6 +1,6 @@
 import axios from "../configs/axios-config";
 
-// Retourne un fichier sélectionné
+//(Tanguy (API fetch)) Retourne un fichier sélectionné
 async function get(fileid) {
   return await fetch(`http://localhost:10000/api/v1/file/${fileid}`,{
 		method:'GET',
@@ -9,14 +9,14 @@ async function get(fileid) {
   //return axios.get(`/file/${fileid}`);
 }
 
-// Crée un fichier et l'affecte à un projet
+//(Tanguy (API fetch)) Crée un fichier et l'affecte à un projet
 async function create(projectid, filename, extension) {
   const data = {
     projectid: projectid,
     filename: filename,
     extension: extension,
   };
-  return await fetch('http://localhost:10000/api/v1/file',{
+  return fetch('http://localhost:10000/api/v1/file',{
 		method:'POST',
 		headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
@@ -24,7 +24,7 @@ async function create(projectid, filename, extension) {
   //return axios.post("/file", data);
 }
 
-// Supprime un fichier
+//(Tanguy (API fetch)) Supprime un fichier
 async function remove(fileid) {
   return await fetch(`http://localhost:10000/api/v1/file/${fileid}`,{
 		method:'DELETE',
@@ -33,10 +33,11 @@ async function remove(fileid) {
   //return axios.delete(`/file/${fileid}`);
 }
 
-// Renomme un fichier
-async function rename(fileid, newfilename) {
+//(Tanguy (API fetch)) Renomme un fichier
+async function rename(fileid, newfilename, extension) {
   const data = {
     newfilename: newfilename,
+    extension: extension
   };
     return await fetch(`http://localhost:10000/api/v1/file/${fileid}?rename=true`,{
 		method:'PUT',
@@ -46,7 +47,7 @@ async function rename(fileid, newfilename) {
   //return axios.put(`/file/${fileid}?rename=true`, data);
 }
 
-// Sauvegarde l'état du fichier dans la base de données
+//(Tanguy (API fetch)) Sauvegarde l'état du fichier dans la base de données
 async function save(fileid, content) {
   const data = {
     content: content,
@@ -59,7 +60,7 @@ async function save(fileid, content) {
   //return axios.put(`/file/${fileid}?save=true`, data);
 }
 
-// Exécute un fichier
+//(Tanguy (API fetch)) Exécute un fichier
 async function execute(fileid) {
   return await fetch(`http://localhost:10000/api/v1/execute/${fileid}`,{
 		method:'GET',

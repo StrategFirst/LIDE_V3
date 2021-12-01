@@ -22,6 +22,17 @@ exports.get = async (username) => {
   return user;
 };
 
+exports.getAll = async () => {
+
+  const users = await User.find().catch((error) => {
+    throw error;
+  });
+
+  if (users == null) throw new Error('Users not found');
+
+  return users;
+};
+
 /**
  * Get a User and return it, create it if it does not exist
  * Used only during login

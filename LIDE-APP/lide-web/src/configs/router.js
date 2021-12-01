@@ -21,7 +21,8 @@ const routes = [
     }
   },
   {
-    path: "/logout/", name: "Logout", meta: {
+    // (Tanguy) Redirection vers la page home
+    path: "/logout/", name: "Logout", component: Home, meta: {
       requiresAuth: false
     }
   },

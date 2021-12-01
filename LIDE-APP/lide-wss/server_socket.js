@@ -10,10 +10,12 @@ ws.on('connection', function connection(ws) {
   let dockerSocket;
   let containerId;
   let firstMessage = true;
+  let totalOutputLength = 0;
 
   ws.on('message', function incoming(input) {
     console.log("> 1");
     if(firstMessage) {
+      // (Tanguy) input est un buffer il faut le convertir un string
       console.log(input.toString("utf8"));
       containerId = input.toString("utf8");
       dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
@@ -23,9 +25,23 @@ ws.on('connection', function connection(ws) {
         dockerSocket.send("\n");
       });
 
+      let limitReached = false;
       dockerSocket.on('message', function incoming(output) {
-        ws.send(output);
-        console.log("from docker : " + output);
+        if (!limitReached) {
+          totalOutputLength += output.length;
+          if (totalOutputLength < 5000000) {
+            ws.send(output);
+            console.log("from docker : " + output);
+          } else {
+            console.log("> too much outputs detected");
+            limitReached = true;
+
+            ws.send(" -- Détection de boucle infinie. -- ");
+            dockerSocket.close();
+            ws.close();
+            delete dockerSocket;
+          }
+        }
       });
      
       dockerSocket.on('close', function close() {

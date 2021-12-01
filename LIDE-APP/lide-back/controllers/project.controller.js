@@ -16,6 +16,7 @@ exports.get = (req, res) => {
 exports.create = (req, res) => {
   const username = req.username;
   console.log("USERNAME CONTROLLER " + username);
+  // on utilise l'api fetch, c'est pourquoi pour récupérer les données on fait req.body
   const projectname = req.body.projectname;
 
   ProjectService.create(username, projectname)

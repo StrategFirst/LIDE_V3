@@ -37,13 +37,16 @@ export default {
 				this.terminal.reset();
 			}
 			// this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
+			// (Tanguy) en local il faut utiliser le web socket local donc ws:localhost:10001/
 			this.socket = new WebSocket("ws:localhost:10001/");
 			this.socket.onopen = () => {
+				// on récupère l'identifiant du conteneur
 				this.socket.send(Object.values(containerId)[0]);
 			};
 			// Liaison socket-terminal
 			this.terminal.loadAddon(new AttachAddon(this.socket, { bidirectional: true }));
  
+			// une fois le socket fermé on affiche un message de fin dans le terminal
 			this.socket.onclose = () => {	
 				this.terminal.writeln("");
 				this.terminal.writeln("---- Fin de l'éxécution ---- ");

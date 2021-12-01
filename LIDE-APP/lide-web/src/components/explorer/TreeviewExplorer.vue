@@ -317,17 +317,20 @@ export default {
 						newprojectname: this.newprojectname,
 						extension: this.extension
 					})
-					.catch((error) => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Une erreur est survenue lors du renommage du projet.",
-							couleur: "error",
-						});
-					})
-					.then(() => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Votre projet a bien été renommé.",
-							couleur: "success",
-						});
+					.then((res) => {
+						// Status Ok
+						if(res.status == 200){
+							this.$store.dispatch("notification/notif", {
+								texte: "Votre projet a bien été renommé.",
+								couleur: "success",
+							});
+						} else {
+							// Status bad request
+							this.$store.dispatch("notification/notif", {
+								texte: "Une erreur est survenue lors du renommage du projet.",
+								couleur: "error",
+							});
+						}
 					});
 				this.$refs.projectRenameForm.reset();
 				this.dialogRenameProject = false;
@@ -342,7 +345,7 @@ export default {
 			const extension = this.extension;
 
 			if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
-				// (Tanguy) Il n'y a plus de catch car le back retourne une erreur celle-ci refuse
+				// (Tanguy) Il n'y a plus de catch car le back retourne une erreur et celle-ci refuse
 				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise' 
 				const fileId = await this.$store
 					.dispatch("file/create", { projectid, filename, extension })

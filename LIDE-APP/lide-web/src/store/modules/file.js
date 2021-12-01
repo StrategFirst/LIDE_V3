@@ -8,6 +8,9 @@ const getters = {}
 
 /* ------------------------- FILE ACTIONS ------------------------- */
 const actions = {
+    // (Tanguy) Crée un fichier puis retourne un objet de type 'file' qui est contenu dans une promise donc 'res' 
+    // contient une promise, je retourne une promise car une promise contient un status ce qui me permet de 
+    // comparer dans 'TreeviewExplorer' si le back a réussi à créer un fichier ou non  
     async create({ dispatch }, { projectid, filename, extension }) {
         return await FileService.create(projectid, filename, extension).then(res => {
             dispatch("project/fetchProjects", null, { root: true }); 
@@ -15,6 +18,8 @@ const actions = {
         });
     },
 
+    // (Tanguy) Le fonctionnement de cette fonction reste similaire à la fonction create qui est juste au-dessus sauf 
+    // qu'ici je vérifie qu'un tab(onglet) est présente pour le renommer  
     async rename({ dispatch }, { fileid, newfilename, extension }) {
         return await FileService.rename(fileid, newfilename, extension)
                 .then(async (res) => {

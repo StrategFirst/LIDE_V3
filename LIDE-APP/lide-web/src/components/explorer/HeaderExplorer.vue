@@ -102,20 +102,25 @@ export default {
 
 	methods: {
 		createProject: function () {
+			// (Tanguy) Il n'y a plus de catch car le back retourne une erreur et celle-ci refuse
+			// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise' 
 			if (this.$refs.projetForm.validate() && this.projectname != "") {
 				this.$store
 					.dispatch("project/create", this.projectname)
-					.catch((error) => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Une erreur est survenue lors de la création du projet.",
-							couleur: "error",
-						});
-					})
-					.then(() => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Votre projet a bien été créé.",
-							couleur: "success",
-						});
+					.then((res) => {
+						// status Ok
+						if(res.status == 201){
+							this.$store.dispatch("notification/notif", {
+								texte: "Votre projet a bien été créé.",
+								couleur: "success",
+							});
+						}else {
+							// status bad request
+							this.$store.dispatch("notification/notif", {
+								texte: "Une erreur est survenue lors de la création du projet.",
+								couleur: "error",
+							});
+						}
 					});
 				this.$refs.projetForm.reset();
 				this.dialogCreateProject = false;

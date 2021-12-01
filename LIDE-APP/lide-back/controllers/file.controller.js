@@ -17,6 +17,7 @@ exports.get = (req, res) => {
 
 exports.create = (req, res) => {
   let username = req.username;
+  // on utilise l'api fetch, c'est pourquoi pour récupérer les données on fait req.body
   let projectid = req.body.projectid;
   let filename = req.body.filename;
   let extension = req.body.extension;
@@ -55,6 +56,7 @@ exports.update = async (req, res) => {
   let extension = req.body.extension;
 
   if (rename == 'true') {
+    // on utilise l'api fetch, c'est pourquoi pour récupérer les données on fait req.body
     const newfilename = req.body.newfilename;
     file = await FileService.rename(username, fileid, newfilename, extension).catch((err) => {
       res.status(400).json(err.message);
@@ -62,6 +64,7 @@ exports.update = async (req, res) => {
   }
 
   if (save == 'true') {
+    // on utilise l'api fetch, c'est pourquoi pour récupérer les données on fait req.body
     const content = req.body.content;
     file = await FileService.save(username, fileid, content).catch((err) => {
       res.status(400).json(err.message);

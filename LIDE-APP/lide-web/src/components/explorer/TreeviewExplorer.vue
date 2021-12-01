@@ -58,11 +58,12 @@
 							<v-btn icon v-bind="attrs" v-on="on">
 								<v-icon>mdi-dots-vertical</v-icon>
 							</v-btn>
-						</template>
+						</template>	
 						<v-list>
+							<!-- (Tanguy) Ajout de file.extension -->
 							<v-list-item
 								class="my-n2"
-								@click="openDialogRenameFile(file._id)"
+								@click="openDialogRenameFile(file._id, file.extension)"
 								link
 							>
 								<v-list-item-title
@@ -250,7 +251,7 @@ export default {
 			projects: (state) => state.project.projects,
 			openedFiles: (state) => state.file.openedFiles,
 			currentProjectId: (state) => state.project.currentProjectId,
-			currentFileId: (state) => state.file.currentFileId,
+			currentFileId: (state) => state.file.currentFileId
 		}),
 	},
 	methods: {
@@ -264,8 +265,10 @@ export default {
 			this.dialogCreateFile = false;
 		},
 
-		openDialogRenameFile(fileid) {
+		//(Tanguy) Ajout de l'extension en paremètre pour pouvoir avoir deux fichiers de même nom mais de types différents
+		openDialogRenameFile(fileid, extension) {
 			this.selectedFileId = fileid;
+			this.extension = extension;
 			this.dialogRenameFile = true;
 		},
 
@@ -314,17 +317,20 @@ export default {
 						newprojectname: this.newprojectname,
 						extension: this.extension
 					})
-					.catch((error) => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Une erreur est survenue lors du renommage du projet.",
-							couleur: "error",
-						});
-					})
-					.then(() => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Votre projet a bien été renommé.",
-							couleur: "success",
-						});
+					.then((res) => {
+						// Status Ok
+						if(res.status == 200){
+							this.$store.dispatch("notification/notif", {
+								texte: "Votre projet a bien été renommé.",
+								couleur: "success",
+							});
+						} else {
+							// Status bad request
+							this.$store.dispatch("notification/notif", {
+								texte: "Une erreur est survenue lors du renommage du projet.",
+								couleur: "error",
+							});
+						}
 					});
 				this.$refs.projectRenameForm.reset();
 				this.dialogRenameProject = false;
@@ -339,20 +345,25 @@ export default {
 			const extension = this.extension;
 
 			if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
+				// (Tanguy) Il n'y a plus de catch car le back retourne une erreur et celle-ci refuse
+				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise' 
 				const fileId = await this.$store
 					.dispatch("file/create", { projectid, filename, extension })
-					.catch((error) => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Une erreur est survenue lors de la création du fichier.",
-							couleur: "error",
-						});
-					})
-					.then((fileId) => {
-							this.openFile(fileId);
+					.then((res) => {
+						// Status Ok
+						if(res.status == 201){
+							res.json().then(file => this.openFile(file._id));
 							this.$store.dispatch("notification/notif", {
 								texte: "Votre fichier a bien été créé.",
 								couleur: "success",
 							});
+						} else {
+							// Status bad request
+							this.$store.dispatch("notification/notif", {
+								texte: "Une erreur est survenue lors de la création du fichier.",
+								couleur: "error",
+							});
+						}
 					});
 				this.$refs.fichierCreateForm.reset();
 				this.dialogCreateFile = false;
@@ -378,22 +389,28 @@ export default {
 
 		renameFile: async function () {
 			if (this.$refs.fichierRenameForm.validate() && this.newfilename != "") {
+				// (Tanguy) Il n'y a plus de catch car le back retourne une erreur celle-ci refuse
+				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise' 
 				await this.$store
 					.dispatch("file/rename", {
 						fileid: this.selectedFileId,
 						newfilename: this.newfilename,
+						extension: this.extension
 					})
-					.catch((error) => {
-						this.$store.dispatch("notification/notif", {
+					.then((res) => {
+						// Status Ok
+						if(res.status == 200){
+							this.$store.dispatch("notification/notif", {
+								texte: "Votre fichier a bien été renommé.",
+								couleur: "success",
+							});
+						} else {
+							// Status bad request
+							this.$store.dispatch("notification/notif", {
 							texte: "Une erreur est survenue lors du renommage du fichier.",
 							couleur: "error",
 						});
-					})
-					.then(() => {
-						this.$store.dispatch("notification/notif", {
-							texte: "Votre fichier a bien été renommé.",
-							couleur: "success",
-						});
+						}
 					});
 				// workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
 				window.dispatchEvent(new Event("resize"));

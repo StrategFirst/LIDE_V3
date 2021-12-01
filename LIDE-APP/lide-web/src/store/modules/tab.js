@@ -31,6 +31,7 @@ const actions = {
             await FileService.get(fileId)
                 .catch((err) => { console.error(err); })
                 .then((res) => {
+                    // (Tanguy) 'res' est un promise desormait il faut donc modifier le code en récupérant la valeur de cette promise
                     res.json().then(file => {
                         const tab = {
                             id: file._id,

@@ -17,6 +17,7 @@ const actions = {
     },
     createUser(context){
         console.log("user du createUser du store " + context.getters.username);
+        // (Tanguy) on stocke le nom de l'utilisateur dans un objet localStorage qui stocke des données côté client
         localStorage.username = context.getters.username;
         service.createUser(context.getters.username);
     },

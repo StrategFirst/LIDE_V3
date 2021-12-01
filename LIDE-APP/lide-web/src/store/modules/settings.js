@@ -71,12 +71,14 @@ const state = () => ({
         "yonce",
         "zenburn",
     ],
-    selectIde: [
+    selectIdeBis: [
         "light",
         "dark",
         "orange",
         "red",
-        "green"
+        "green",
+        "purple",
+        "yellow",
     ]
 });
 

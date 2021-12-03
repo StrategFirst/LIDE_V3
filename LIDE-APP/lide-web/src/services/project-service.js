@@ -13,6 +13,7 @@ async function get(projectid) {
 async function create(projectname) {
   const data = {
     projectname: projectname,
+    username: localStorage.username
   };
   return await fetch('http://localhost:10000/api/v1/project',{
 		method:'POST',
@@ -24,9 +25,13 @@ async function create(projectname) {
 
 //(Tanguy (API fetch)) Supprime un projet
 async function remove(projectid) {
+  const data = {
+    username: localStorage.username
+  };
   return await fetch(`http://localhost:10000/api/v1/project/${projectid}`,{
 		method:'DELETE',
-		headers: {'Content-Type': 'application/json'}
+		headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
   });
   //axios.delete(`/project/${projectid}`);
 }
@@ -35,6 +40,7 @@ async function remove(projectid) {
 async function rename(projectid, newprojectname) {
   const data = {
     newprojectname: newprojectname,
+    username: localStorage.username
   };
   return await fetch(`http://localhost:10000/api/v1/project/${projectid}?rename=true`,{
 		method:'PUT',

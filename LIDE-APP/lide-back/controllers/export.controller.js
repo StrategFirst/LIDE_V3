@@ -3,7 +3,7 @@ const { execSync, exec } = require('child_process');
 const FileService = require('../services/db/file.service');
 
 exports.getExport = async (req, res) => {
-    const username = req.username;
+    const username = req.params.username;
 
     try {
     let result = await UserService.getProjects(username)

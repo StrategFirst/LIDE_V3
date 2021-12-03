@@ -5,7 +5,7 @@ const fs = require('fs').promises;
 
 // Fonction de compilation & exécution
 exports.execute = async (req, res) => {
-  const username = req.username;
+  const username = req.params.username;
   const fileid = req.params.fileid;
 
   // Récupération du fichier initiateur de l'exécution
@@ -116,7 +116,7 @@ async function constructFs(project, username, res) {
 }
 
 exports.killExec = (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   const containerName = 'lide-' + username
 
   try {

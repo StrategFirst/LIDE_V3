@@ -2,7 +2,7 @@ import axios from "../configs/axios-config";
 
 //(Tanguy (API fetch)) Retourne un fichier sélectionné
 async function get(fileid) {
-  return await fetch(`http://localhost:10000/api/v1/file/${fileid}`,{
+  return await fetch(`http://localhost:10000/api/v1/file/${fileid}/${localStorage.username}`,{
 		method:'GET',
 		headers: {'Content-Type': 'application/json'}
   });
@@ -12,6 +12,7 @@ async function get(fileid) {
 //(Tanguy (API fetch)) Crée un fichier et l'affecte à un projet
 async function create(projectid, filename, extension) {
   const data = {
+    username: localStorage.username,
     projectid: projectid,
     filename: filename,
     extension: extension,
@@ -26,9 +27,13 @@ async function create(projectid, filename, extension) {
 
 //(Tanguy (API fetch)) Supprime un fichier
 async function remove(fileid) {
+  const data = {
+    username: localStorage.username
+  };
   return await fetch(`http://localhost:10000/api/v1/file/${fileid}`,{
 		method:'DELETE',
-		headers: {'Content-Type': 'application/json'}
+		headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
   });
   //return axios.delete(`/file/${fileid}`);
 }
@@ -36,6 +41,7 @@ async function remove(fileid) {
 //(Tanguy (API fetch)) Renomme un fichier
 async function rename(fileid, newfilename, extension) {
   const data = {
+    username: localStorage.username,
     newfilename: newfilename,
     extension: extension
   };
@@ -50,6 +56,7 @@ async function rename(fileid, newfilename, extension) {
 //(Tanguy (API fetch)) Sauvegarde l'état du fichier dans la base de données
 async function save(fileid, content) {
   const data = {
+    username: localStorage.username,
     content: content,
   };
   return await fetch(`http://localhost:10000/api/v1/file/${fileid}?save=true`,{
@@ -62,7 +69,7 @@ async function save(fileid, content) {
 
 //(Tanguy (API fetch)) Exécute un fichier
 async function execute(fileid) {
-  return await fetch(`http://localhost:10000/api/v1/execute/${fileid}`,{
+  return await fetch(`http://localhost:10000/api/v1/execute/${fileid}/${localStorage.username}`,{
 		method:'GET',
 		headers: {'Content-Type': 'application/json'}
   });

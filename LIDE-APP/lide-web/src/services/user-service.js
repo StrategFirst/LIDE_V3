@@ -1,7 +1,7 @@
 import axios from "../configs/axios-config";
 
 async function get() {
-  return await fetch(`http://localhost:10000/api/v1/user`,{
+  return await fetch(`http://localhost:10000/api/v1/user/${localStorage.username}`,{
 		method:'GET',
 		headers: {'Content-Type': 'application/json'},
   });
@@ -10,7 +10,7 @@ async function get() {
 
 //(Tanguy (API fetch)) Requete pour récupérer les projets créés par l'utilisateur
 async function getUserProjects() {
-  return await fetch('http://localhost:10000/api/v1/user/projects',{
+  return await fetch(`http://localhost:10000/api/v1/user/projects/${localStorage.username}`,{
 		method:'GET',
 		headers: {'Content-Type': 'application/json'}
   });
@@ -38,18 +38,14 @@ async function createUser(username) {
   //return request.send();
   //return axios.get('/user');
 
-  return await fetch('http://localhost:10000/api/v1/user',{
-		method:'POST',
-		headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      username: username
-    })
+  return await fetch(`http://localhost:10000/api/v1/user/${localStorage.username}`,{
+		method:'GET',
+		headers: {'Content-Type': 'application/json'}
   });
   
 }
 
 async function getAll() {
-  
   return await fetch('http://localhost:10000/api/v1/user/all',{
 		method:'GET',
 		headers: {'Content-Type': 'application/json'}

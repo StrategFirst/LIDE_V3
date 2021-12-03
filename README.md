@@ -22,7 +22,7 @@ Vous pouvez modifier le fichier `.env` afin de changer les variables de configur
   
   
 ## Installation des sources
-Installer ou lancer l'application en appelant le script `start_lide.sh` pour générer les images et déployer les services. Cette 
+Installer ou lancer l'application en appelant le script `start_lide.sh` pour générer les images et déployer les services.(Il faut parfois executer deux fois le script `start_lide.sh`)
 
 Lancez à nouveau le script avec l'option `-i` pour construire les images qui serviront pour les conteneurs d'éxécution (pour l'instant java, python et c++). Cette étape n'est plus nécéssaire ensuite pour relancer l'application.  
 

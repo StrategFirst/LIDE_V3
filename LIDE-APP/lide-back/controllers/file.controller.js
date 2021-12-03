@@ -3,7 +3,7 @@ const FileService = require('../services/db/file.service');
 // TODO : pour tout les controlleurs, s'assurer que les parametres ne sont pas vide, cela brise les requetes
 
 exports.get = (req, res) => {
-  const username = req.username;
+  const username = req.params.username;
   const fileid = req.params.fileid;
 
   FileService.get(username, fileid)
@@ -16,7 +16,7 @@ exports.get = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  let username = req.username;
+  let username = req.body.username;
   // on utilise l'api fetch, c'est pourquoi pour récupérer les données on fait req.body
   let projectid = req.body.projectid;
   let filename = req.body.filename;
@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   const fileid = req.params.fileid;
 
   FileService.delete(username, fileid)
@@ -46,9 +46,9 @@ exports.delete = (req, res) => {
 
 // Fonction pour renommer un fichier
 exports.update = async (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   const fileid = req.params.fileid;
-
+  console.log(username + " ici");
   let file = null;
 
   let rename = req.query.rename;

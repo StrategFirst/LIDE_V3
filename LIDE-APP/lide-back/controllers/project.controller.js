@@ -1,7 +1,7 @@
 const ProjectService = require('../services/db/project.service');
 
 exports.get = (req, res) => {
-  const username = req.username;
+  const username = req.params.username;
   const projectid = req.params.projectid;
 
   ProjectService.get(username, projectid)
@@ -14,7 +14,7 @@ exports.get = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   console.log("USERNAME CONTROLLER " + username);
   // on utilise l'api fetch, c'est pourquoi pour récupérer les données on fait req.body
   const projectname = req.body.projectname;
@@ -30,7 +30,7 @@ exports.create = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   const projectid = req.params.projectid;
 
   ProjectService.delete(username, projectid)
@@ -43,7 +43,7 @@ exports.delete = (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   const projectid = req.params.projectid;
   const rename = req.query.rename;
 

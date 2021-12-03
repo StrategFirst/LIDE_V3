@@ -127,8 +127,6 @@ exports.rename = async (username, fileid, newfilename, extension) => {
   // (Tanguy) j'ai ajouté la comparaison avec l'extension
   //      ex : main.cpp et main.py est maintenant accepté
   if (files.find((file) => ((file.filename == newfilename) && (file.extension == extension))) == null) {
-    console.log(file.filename + " " + " " + newfilename);
-    console.log(file.extension + " " + " " + extension);
     // if no --> update the filename
     await file.update({ filename: newfilename }).catch((error) => {
       throw error;
@@ -138,7 +136,6 @@ exports.rename = async (username, fileid, newfilename, extension) => {
       throw error;
     });
   } else throw new Error('File name already used');
-
   return file;
 };
 

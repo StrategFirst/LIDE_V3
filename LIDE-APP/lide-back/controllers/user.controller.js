@@ -1,7 +1,7 @@
 const UserService = require('../services/db/user.service');
 
 exports.get = (req, res) => {
-  const username = req.username;
+  const username = req.params.username;
   UserService.getOrCreate(username)
       .then((result) => {
         res.status(200).json(result);
@@ -22,7 +22,7 @@ exports.getAll = (req, res) => {
 };
 
 exports.post = (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   UserService.NewUser(username)
       .then((result) => {
         res.status(200).json(result);
@@ -33,7 +33,7 @@ exports.post = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   UserService.delete(username)
       .then((result) => {
         res.status(200).json(result);
@@ -43,7 +43,7 @@ exports.delete = (req, res) => {
       });
 };
 exports.getProjects = async (req, res) => {
-  const username = req.username;
+  const username = req.params.username;
   UserService.getProjects(username)
       .then((result) => {
         res.status(200).json(result);

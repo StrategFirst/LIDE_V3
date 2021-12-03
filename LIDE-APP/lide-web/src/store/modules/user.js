@@ -24,7 +24,10 @@ const actions = {
     async fetchUsers({ commit }) {
         await service.getAll()
             .then(res => {
-                res.json().then(value => commit("SET_USERS", value));
+                res.json().then(value => {
+                    console.log(value);
+                    commit("SET_USERS", value);
+                });
             })
     },
 }

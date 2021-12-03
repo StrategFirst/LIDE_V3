@@ -21,33 +21,33 @@ const SessionService = require("./services/security/session.service");
 /* ---------------- Routes -------------------- */
 
 // Route permettant de créer un utilisateur lors de sa première connexion
-router.get("/user", ensureAuthenticated, user.get);
+router.get("/user/:username", ensureAuthenticated, user.get);
 //(Tanguy) Route pour créer un utilisateur (user1)
 router.post("/user", ensureAuthenticated, user.post);
 router.delete("/user", ensureAuthenticated, user.delete);
-router.get("/user/projects", ensureAuthenticated, user.getProjects);
+router.get("/user/projects/:username", ensureAuthenticated, user.getProjects);
 router.post("/user/projectsFrom", ensureAuthenticated, user.getProjectsFrom);
 router.get("/user/all", ensureAuthenticated, user.getAll);
 
 // Routes de gestion des projets
 router.post("/project", ensureAuthenticated, project.create);
-router.get("/project/:projectid", ensureAuthenticated, project.get);
+router.get("/project/:projectid/:username", ensureAuthenticated, project.get);
 router.delete("/project/:projectid", ensureAuthenticated, project.delete);
 router.put("/project/:projectid", ensureAuthenticated, project.update);
 
 // Routes de gestion des fichiers
 router.post("/file", ensureAuthenticated, file.create);
-router.get("/file/:fileid", ensureAuthenticated, file.get);
+router.get("/file/:fileid/:username", ensureAuthenticated, file.get);
 router.delete("/file/:fileid", ensureAuthenticated, file.delete);
 router.put("/file/:fileid", ensureAuthenticated, file.update);
 
 // Route de compilation & exécution
-router.get("/execute/:fileid", ensureAuthenticated, execution.execute);
+router.get("/execute/:fileid/:username", ensureAuthenticated, execution.execute);
 // Route d'arrêt de l'exécution
 router.post("/killexec", ensureAuthenticated, execution.killExec);
 
 //route d'export 
-router.get("/export", ensureAuthenticated, exporter.getExport);
+router.get("/export/:username", ensureAuthenticated, exporter.getExport);
 
 // Route de validation cas + génération du token de session
 router.get("/session", session.session);
@@ -65,7 +65,7 @@ async function ensureAuthenticated(req, res, next) {
   
   // Toutes les requêtes se basent sur username étant donnée que le cas est désactivé, 
   // il n'y a plus de session qui est généré par conséquent il faut indiqué un utilisateur en dur
-  req.username = "user2";
+  //req.username = "user2";
   next();
 }
 

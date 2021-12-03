@@ -20,14 +20,14 @@ const SessionService = require("./services/security/session.service");
 
 /* ---------------- Routes -------------------- */
 
+router.get("/user/all", ensureAuthenticated, user.getAll);
 // Route permettant de créer un utilisateur lors de sa première connexion
 router.get("/user/:username", ensureAuthenticated, user.get);
 //(Tanguy) Route pour créer un utilisateur (user1)
-router.post("/user", ensureAuthenticated, user.post);
+//router.post("/user", ensureAuthenticated, user.post);
 router.delete("/user", ensureAuthenticated, user.delete);
 router.get("/user/projects/:username", ensureAuthenticated, user.getProjects);
 router.post("/user/projectsFrom", ensureAuthenticated, user.getProjectsFrom);
-router.get("/user/all", ensureAuthenticated, user.getAll);
 
 // Routes de gestion des projets
 router.post("/project", ensureAuthenticated, project.create);

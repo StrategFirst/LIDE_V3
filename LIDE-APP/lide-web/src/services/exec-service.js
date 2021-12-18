@@ -1,16 +1,11 @@
-import axios from "../configs/axios-config";
+import API from "../configs/api";
 
-// (Tanguy (API fetch)) Stop la compilation
-async function killExecution() {
-  const data = {
-    username: localStorage.username,
-  };
-    return await fetch('http://localhost:10000/api/v1/killexec/',{
-		method:'POST',
-		headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-    });
-    //return axios.post(`/killexec`);
+function killExecution() {
+	return API.post('/killexec',
+		{
+			username: localStorage.username,
+		}
+	);
 }
 
 export default {

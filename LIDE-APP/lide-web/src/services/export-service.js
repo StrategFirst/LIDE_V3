@@ -1,13 +1,9 @@
-import axios from "../configs/axios-config";
+import API from "../configs/api";
 
-//(Tanguy (API fetch)) Exporte ses fichiers
-async function exporter() {
-    return await fetch(`http://localhost:10000/api/v1/export//${localStorage.username}`,{
-      method:'GET',
-      headers: {'Content-Type': 'application/json'}
-    });
-  }
+function exporter() {
+	return API.get(`/export/${localStorage.username}`);
+}
 
-  export default {
-    exporter,
+export default {
+	exporter,
 };

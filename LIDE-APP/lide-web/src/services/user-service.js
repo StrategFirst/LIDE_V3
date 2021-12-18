@@ -1,62 +1,29 @@
-import axios from "../configs/axios-config";
+import API from "../configs/api";
 
-async function get() {
-  return await fetch(`http://localhost:10000/api/v1/user/${localStorage.username}`,{
-		method:'GET',
-		headers: {'Content-Type': 'application/json'},
-  });
-  //return axios.get('/user');
+function get() {
+	return API.get(`/user/${localStorage.username}`);
 }
 
-//(Tanguy (API fetch)) Requete pour récupérer les projets créés par l'utilisateur
-async function getUserProjects() {
-  return await fetch(`http://localhost:10000/api/v1/user/projects/${localStorage.username}`,{
-		method:'GET',
-		headers: {'Content-Type': 'application/json'}
-  });
-    //return axios.get("/user/projects");
+function getUserProjects() {
+	return API.get(`/user/projects/${localStorage.username}`);
 }
 
-async function getProjectsFromUser(idUser) {
-  return await fetch('http://localhost:10000/api/v1/user/projectsFrom',{
-		method:'POST',
-		headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      usernameFrom: idUser
-    })
-  });
-    //return axios.get("/user/projects");
+function getProjectsFromUser(idUser) {
+	return API.post('/user/projectsFrom',{usernameFrom: idUser});
 }
 
-// (Tanguy (API fetch)) Créer un utilisateur
-async function createUser(username) {
-  console.log("username dans les routes fronts create user : " + username);
-  //const request = new XMLHttpRequest();
-  //request.open("POST", "https://lide.leria-etud.univ-angers.fr:10000/user");
-  //request.open("POST", "localhost:10000/user");
-  //request.setRequestHeader("username", username);
-  //return request.send();
-  //return axios.get('/user');
-
-  return await fetch(`http://localhost:10000/api/v1/user/${localStorage.username}`,{
-		method:'GET',
-		headers: {'Content-Type': 'application/json'}
-  });
-  
+function createUser(username) {
+	return API.get(`/user/${localStorage.username}`);
 }
 
-async function getAll() {
-  return await fetch('http://localhost:10000/api/v1/user/all',{
-		method:'GET',
-		headers: {'Content-Type': 'application/json'}
-  });
+function getAll() {
+	return API.get('/user/all');
 }
-
 
 export default {
-  get,
-  getAll,
-  getUserProjects,
-  getProjectsFromUser,
-  createUser
+	get,
+	getAll,
+	getUserProjects,
+	getProjectsFromUser,
+	createUser
 };

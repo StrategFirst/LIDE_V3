@@ -30,7 +30,7 @@ export default {
 					console.error(error);
 				});
 
-			console.log("Le terminal a reçu le container ID : " + containerId);
+			console.log("Le terminal a reçu le container ID : " , containerId);
 			// Recharger le terminal et le socket si ce n'est pas la première fois
 			if(this.socket !== null) {
 				this.socket.close();

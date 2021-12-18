@@ -4,8 +4,6 @@ import Home from "../pages/Home";
 import Ide from "../pages/Ide";
 import Login from "../pages/login";
 import Page404 from "../pages/Page404"
-import Cas from "./cas";
-
 
 Vue.use(VueRouter);
 
@@ -39,7 +37,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
-//Vue.use(Cas, router);
 
 export default router;

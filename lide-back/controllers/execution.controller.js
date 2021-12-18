@@ -54,7 +54,7 @@ exports.execute = async (req, res) => {
     var TIMEOUT_VALUE = process.env.TIMEOUT_VALUE;
 
     //  fonction qui vérifie si une image de type img existe
-    const checkIfImageExist = (img) => execSync(`docker images | grep ${img} | wc -l`) == '1';
+    const checkIfImageExist = (img) => execSync(`docker images | grep ${img} | wc -l`).toString() == '1\n'
 
     switch (extension) {
       case 'cpp':

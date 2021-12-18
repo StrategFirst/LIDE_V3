@@ -39,8 +39,8 @@ exports.execute = async (req, res) => {
     execSync('mkdir -p ' + projectPath);
 
     // Construction des fichiers sur le FS du serveur
-    constructFs(project, username, res);
-
+    await constructFs(project, username, res);
+    
     // Supression d'un potentiel précedent container
     try {
       execSync('docker container rm --force ' + containerName);

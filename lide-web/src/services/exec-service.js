@@ -1,4 +1,4 @@
-import API from "../configs/api";
+import API from "service";
 
 function killExecution() {
 	return API.post('/killexec',

@@ -1,4 +1,4 @@
-import API from "../configs/api";
+import API from "service";
 
 function get() {
 	return API.get(`/user/${localStorage.username}`);

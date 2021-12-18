@@ -1,4 +1,4 @@
-import API from "../configs/api";
+import API from "service";
 
 function sendMail(mailFrom, object, content) {
 	return API.post( '/mail' ,

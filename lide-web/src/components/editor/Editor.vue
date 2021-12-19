@@ -331,7 +331,7 @@ export default {
 			await this.saveTab(tab);
 			FileService.execute(tab.file._id)
 				.then((res) => res.json() )
-				.then( containerid => this.$root.$refs.Terminal.openSocket(containerid) )
+				.then( data => this.$root.$refs.Terminal.openSocket(data.containerid) )
 				.catch((error) => {
 					this.$store.dispatch("notification/notif", {
 						texte: "Une erreur est survenue lors de la compilation.",

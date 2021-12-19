@@ -30,7 +30,7 @@ export default {
 					console.error(error);
 				});
 
-			console.log("Le terminal a reçu le container ID : " + containerId);
+			console.log("Le terminal a reçu le container ID : " , containerId);
 			// Recharger le terminal et le socket si ce n'est pas la première fois
 			if(this.socket !== null) {
 				this.socket.close();
@@ -38,7 +38,7 @@ export default {
 			}
 			// this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
 			// (Tanguy) en local il faut utiliser le web socket local donc ws:localhost:10001/
-			this.socket = new WebSocket("ws:localhost:10001/");
+			this.socket = new WebSocket(`ws:${window.location.hostname}:10001/`); //new WebSocket("ws:localhost:10001/");
 			this.socket.onopen = () => {
 				// on récupère l'identifiant du conteneur
 				this.socket.send(Object.values(containerId)[0]);

@@ -25,7 +25,7 @@ exports.execute = async (req, res) => {
 	const projectname = project.projectname;
 
 	// params containter
-	const containerName = 'lide-' + username;
+	const containerName = 'lide-user-' + username;
 	let containerId = '';
 
 	try {
@@ -113,7 +113,7 @@ function constructFs(project, username) {
 
 exports.killExec = (req, res) => {
 	const username = req.body.username;
-	const containerName = 'lide-' + username
+	const containerName = 'lide-user-' + username
 
 	try {
 		console.debug(`docker kill "${containerName}"`)

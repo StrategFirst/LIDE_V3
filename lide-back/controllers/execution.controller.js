@@ -11,8 +11,7 @@ exports.execute = async (req, res) => {
 	// Récupération du fichier initiateur de l'exécution
 	const file = await FileService.get(username, fileid).catch((error) => {
 		console.error(error);
-		console.log('-----------------------------------------------------------------------------');
-		res.status(500).json(error);
+		res.sendSstatus(500);
 	});
 	const filename = file.filename;
 	const reqExtension = file.extension;
@@ -20,7 +19,7 @@ exports.execute = async (req, res) => {
 	// Récupération de son projet
 	const project = await ProjectService.get(username, file.projectid).catch((error) => {
 		console.error(error);
-		res.status(500).json(error);
+		res.sendStatus(500);
 	});
 	const projectname = project.projectname;
 
@@ -97,7 +96,7 @@ exports.execute = async (req, res) => {
 		res.status(200).json({ containerid: containerId });
 	} catch (error) {
 		console.error(error);
-		res.status(500).json(error);
+		res.sendStatus(500);
 	}
 }
 
@@ -123,6 +122,6 @@ exports.killExec = (req, res) => {
 		res.status(200).json({ status: statusMessage });
 	} catch (error) {
 		console.error(error);
-		res.status(500).json(error.message);
+		res.sendStatus(500);
 	}
 }

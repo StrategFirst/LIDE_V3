@@ -1,4 +1,4 @@
-import API from "service";
+import API from "./service.js";
 
 function exporter() {
 	return API.get(`/export/${localStorage.username}`);

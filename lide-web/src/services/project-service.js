@@ -1,4 +1,4 @@
-import API from "service";
+import API from "./service.js";
 
 function get( projectid ) {
 	return API.get(`/project/${projectid}`);

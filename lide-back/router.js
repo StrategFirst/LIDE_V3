@@ -9,6 +9,7 @@ const file = require("./controllers/file.controller");
 const execution = require("./controllers/execution.controller");
 const session = require("./controllers/session.controller");
 const exporter = require("./controllers/export.controller");
+const cas = require("../controlles/cas.controller");
 
 const mail = require("./controllers/mail.controller");
 
@@ -57,6 +58,9 @@ router.get("/validateSession", session.validateSession);
 
 //Route pour envoyer le mail
 router.post("/mail", mail.post);
+
+// Route du CAS
+router.post("/CAS", cas.post);
 
 async function ensureAuthenticated(req, res, next) {
   const session = req.headers.session;

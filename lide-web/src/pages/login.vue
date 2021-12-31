@@ -9,31 +9,39 @@
 			flat
 			app
 		>
-			<img width="130" src="@/assets/img/ua.png" style="margin: auto;"/>
+			<img width="130" src="@/assets/img/ua.png" class="mx-auto"/>
 		</v-app-bar>
 
 		<v-main class="mt-3">
 			<v-container>
 				<v-row>
-					<v-col cols="6" style="margin: auto;">
+					<v-col cols="6" class="mx-auto">
 						<v-text-field
+							v-model="username"
 							label="Identifiant"
 							outlined
 						></v-text-field>
 						<v-text-field
+							v-model="password"
 							label="Mot de passe"
 							outlined
 							type="password"
 						></v-text-field>
 					</v-col>
 				</v-row>
-				<v-row>
-					<v-col cols="6" style="margin: auto; display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 3rem;">
+				<v-row style="justify-content: center;">
+					<v-col
+						cols="1"
+						>
 						<v-btn 
 							color="light-grey"
 							class="font-weight-bold"
 							@click="foldback()"
-							>	↩</v-btn>
+							>↩</v-btn>
+					</v-col>
+					<v-col
+						cols="1">
+
 						<v-btn color="blue" @click="login()">Se connecter</v-btn>
 					</v-col>
 				</v-row>
@@ -44,11 +52,7 @@
 
 <script>
 
-import AppBar from "../components/appbar/AppBar";
-import Explorer from "../components/explorer/Explorer";
-import Editor from "../components/editor/Editor";
-import Terminal from "../components/terminal/Terminal";
-import ActionTerminal from "../components/terminal/ActionTerminal";
+import AppBar from "../components/appbar/AppBar";	
 import SettingDrawer from "../components/drawer/SettingDrawer";
 import HelpDrawer from "../components/drawer/HelpDrawer";
 import Notification from "../components/utils/Notification";
@@ -69,5 +73,3 @@ export default {
 	}
 };
 </script>
-<style>
-</style>

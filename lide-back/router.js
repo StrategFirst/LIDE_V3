@@ -9,7 +9,7 @@ const file = require("./controllers/file.controller");
 const execution = require("./controllers/execution.controller");
 const session = require("./controllers/session.controller");
 const exporter = require("./controllers/export.controller");
-const cas = require("../controlles/cas.controller");
+const cas = require("./controllers/cas.controller");
 
 const mail = require("./controllers/mail.controller");
 

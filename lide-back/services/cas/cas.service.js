@@ -2,7 +2,8 @@ exports.login = async function(user_username, user_password) {
 
 	let URL_login = 'https://casv6.univ-angers.fr/cas/login';
 
-	import fetch from 'node-fetch';
+	const fetch = require('node-fetch');
+	//import fetch from 'node-fetch';
 
 	const S = (a) => a?a[1]:null;
 

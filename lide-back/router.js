@@ -9,11 +9,7 @@ const file = require("./controllers/file.controller");
 const execution = require("./controllers/execution.controller");
 const session = require("./controllers/session.controller");
 const exporter = require("./controllers/export.controller");
-const cas = require("./controllers/cas.controller");
-
 const mail = require("./controllers/mail.controller");
-
-
 
 /* ---------------- Security ------------------ */
 
@@ -22,10 +18,7 @@ const SessionService = require("./services/security/session.service");
 /* ---------------- Routes -------------------- */
 
 router.get("/user/all", ensureAuthenticated, user.getAll);
-// Route permettant de créer un utilisateur lors de sa première connexion
-router.get("/user/:username", ensureAuthenticated, user.get);
-//(Tanguy) Route pour créer un utilisateur (user1)
-//router.post("/user", ensureAuthenticated, user.post);
+router.post("/user", ensureAuthenticated, user.post); // Vérifie la validiter depuis le cas , s'il n'éxiste pas chez nous on le créer et dans tous les cas il se connecte
 router.delete("/user", ensureAuthenticated, user.delete);
 router.get("/user/projects/:username", ensureAuthenticated, user.getProjects);
 router.post("/user/projectsFrom", ensureAuthenticated, user.getProjectsFrom);
@@ -47,7 +40,7 @@ router.get("/execute/:fileid/:username", ensureAuthenticated, execution.execute)
 // Route d'arrêt de l'exécution
 router.post("/killexec", ensureAuthenticated, execution.killExec);
 
-//route d'export 
+//route d'export
 router.get("/export/:username", ensureAuthenticated, exporter.getExport);
 
 // Route de validation cas + génération du token de session
@@ -59,15 +52,12 @@ router.get("/validateSession", session.validateSession);
 //Route pour envoyer le mail
 router.post("/mail", mail.post);
 
-// Route du CAS
-router.post("/CAS", cas.post);
-
 async function ensureAuthenticated(req, res, next) {
   const session = req.headers.session;
   //const username = await SessionService.validateSession(session);
   //if (!username) res.status(401).json("User is not authenticated");
-  
-  // Toutes les requêtes se basent sur username étant donnée que le cas est désactivé, 
+
+  // Toutes les requêtes se basent sur username étant donnée que le cas est désactivé,
   // il n'y a plus de session qui est généré par conséquent il faut indiqué un utilisateur en dur
   //req.username = "user2";
   next();

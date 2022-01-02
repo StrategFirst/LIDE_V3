@@ -1,18 +1,18 @@
 import service from "../../services/user-service";
-import cas from "../../services/cas-service";
+
 const state = () => ({
     username: "",
+    password: "",
     users: []
 });
 
 const getters = {
-    username (state)  {
+    username (state) {
         return state.username;
     },
-	password (state)  {
-		return state.password;
-	}
-
+    password (state) {
+	return state.password;
+    }
 }
 
 const actions = {
@@ -20,12 +20,17 @@ const actions = {
     setUsername({commit}, username){
         commit('SET_USERNAME', username)
     },
-    createUser(context){
-		console.log( cas.login(context.getters.username, context.getters.password ).then( console.log ) );
-        console.log("user du createUser du store " + context.getters.username);
-        // (Tanguy) on stocke le nom de l'utilisateur dans un objet localStorage qui stocke des données côté client
-        localStorage.username = context.getters.username;
-        service.createUser(context.getters.username);
+    setPassword({commit}, password){
+        commit('SET_PASSWORD', password)
+    },
+    async createUser(context) {
+        let response = await service.createUser(context.getters.username, context.getters.password);
+	if( response.status == 200 ) {
+            localStorage.username = context.getters.username;
+            return response;
+	} else {
+            throw response;
+	}
     },
     async fetchUsers({ commit }) {
         await service.getAll()
@@ -40,6 +45,10 @@ const actions = {
 const mutations = {
     SET_USERNAME(state, username){
         state.username = username;
+    },
+    SET_PASSWORD(state, password){
+        state.password = password;
+        console.log( 'password set');
     },
 
     SET_USERS(state, users){

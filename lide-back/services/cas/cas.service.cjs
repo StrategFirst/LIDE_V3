@@ -2,7 +2,8 @@ exports.login = async function(user_username, user_password) {
 
 	let URL_login = 'https://casv6.univ-angers.fr/cas/login';
 
-	const fetch = require('node-fetch');
+	const fetch = (...args) => import('node-fetch').then( ({default: fetch}) => fetch(...args) );
+	//const fetch = require('node-fetch');
 	//import fetch from 'node-fetch';
 
 	const S = (a) => a?a[1]:null;
@@ -16,10 +17,10 @@ exports.login = async function(user_username, user_password) {
 	}
 
 	// 1 Récupération du formulaire
-	fetch( URL_login , { method: 'GET' } )							// Demande du formulaire
-		.then( reponse => reponse.text() )							// Récupération du contenu HTML
-		.then( html => html.match(/<form(.|\n)*<\/form>/)[0]  )		// filtrage sur le formulaire
-		.then( form => form.match(/<input([^>]*)/g) )				// puis sur chaque input
+	return await fetch( URL_login , { method: 'GET' } )					// Demande du formulaire
+		.then( reponse => reponse.text() )						// Récupération du contenu HTML
+		.then( html => html.match(/<form(.|\n)*<\/form>/)[0]  )				// filtrage sur le formulaire
+		.then( form => form.match(/<input([^>]*)/g) )					// puis sur chaque input
 		.then( inputs => inputs.map( input => ( {					// pour chacun on ne garde que les champs intérressants
 				name: S(input.match(/name="([^"]+)"/)),
 				type: S(input.match(/type="([^"]+)"/)),
@@ -29,7 +30,7 @@ exports.login = async function(user_username, user_password) {
 			['password','text','hidden']
 				.indexOf(input.type) != -1
 			) )
-		.then( inputs => inputs.map( input => { 					// on va remplir le formulaire
+		.then( inputs => inputs.map( input => {						// on va remplir le formulaire
 			switch( input.type ) {	
 				case 'hidden':											// les inputs cacher doivent être pré-remplie
 					break;
@@ -73,7 +74,7 @@ exports.login = async function(user_username, user_password) {
 					"data" : {
 						displayName : data.displayName.replace(/[|]/g,''),
 						studentNumber : data.supannEtuId.replace(/[|]/g,''),
-						email : data.email.replace(/[|]/g,''),
+						email : data.mail.replace(/[|]/g,''),
 						uid : data.uid.replace(/[|]/g,''),
 						info : 'ok'
 					}

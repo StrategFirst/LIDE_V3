@@ -46,6 +46,8 @@
 					</v-col>
 				</v-row>
 			</v-container>
+			<Notification />
+
 		</v-main>
 	</v-app>
 </template>
@@ -53,18 +55,36 @@
 <script>
 
 import AppBar from "../components/appbar/AppBar";	
-import SettingDrawer from "../components/drawer/SettingDrawer";
-import HelpDrawer from "../components/drawer/HelpDrawer";
 import Notification from "../components/utils/Notification";
 
 export default {
 	name: "Login",
 
+	components: {
+		Notification,
+	},
+
 	methods: {
 		login: function () {
-			this.$store.dispatch('user/setUsername', this.username);
-			this.$store.dispatch('user/createUser',this.$store);
-			this.$router.push('/app');
+			this.$store.dispatch('user/setUsername', this.username );
+                        this.$store.dispatch('user/setPassword', this.password );
+			this.$store.dispatch('user/createUser', this.$store)
+				.then( (response)=> {
+					this.$router.push('/app');
+				} )
+				.catch( (response)=> {
+					let texte;
+					switch( response.status ) {
+						case 401: texte = 'Mot de passe ou identifiant incorrect'; break;
+						case 501: texte = 'La plateforme ne supporte que les étudiants pour l\'instants !'; break;
+						case 503: texte = 'Erreur du CAS'; break;
+						default: texte = 'Erreur d\'origine inconnu';
+					}
+					this.$store.dispatch('notification/notif' , {
+						texte,
+						couleur: "error"
+					} );
+				} )
 		},
 
 		foldback: function () {

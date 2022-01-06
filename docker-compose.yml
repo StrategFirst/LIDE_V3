@@ -82,6 +82,8 @@ services:
       MAX_LENGTH_OUTPUT_ALLOWED: ${MAX_LENGTH_OUTPUT_ALLOWED}
     env_file:
       - .env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /app
     entrypoint: node server_socket.js
     network_mode: host

@@ -1,66 +1,85 @@
 const WebSocket = require('ws');
 
-const _port = process.env.LIDE_WSS_PORT;
+const Logger = require('./logger.js');
 
-const ws = new WebSocket.Server({ port: _port });
+const server_port = process.env.SERVER_PORT;
+const docker_api_port = process.env.DOCKER_API_PORT;
+const docker_api_host = process.env.DOCKER_API_HOST;
+const max_length_allowed_output = process.env.MAX_LENGTH_OUTPUT_ALLOWED;
 
-ws.on('connection', function connection(ws) {
-  console.log("> connected");
+const wss = new WebSocket.Server({ port: server_port });
 
-  let dockerSocket;
-  let containerId;
-  let firstMessage = true;
-  let totalOutputLength = 0;
+wss.on('connection', function ( clientSocket ) {
 
-  ws.on('message', function incoming(input) {
-    console.log("> 1");
-    if(firstMessage) {
-      // (Tanguy) input est un buffer il faut le convertir un string
-      console.log(input.toString("utf8"));
-      containerId = input.toString("utf8");
-      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
-      
-      dockerSocket.on('open', function open() {
-        console.log("> successfully connected to docker api");
-        dockerSocket.send("\n");
-      });
+	const logger = new Logger();
 
-      let limitReached = false;
-      dockerSocket.on('message', function incoming(output) {
-        if (!limitReached) {
-          totalOutputLength += output.length;
-          if (totalOutputLength < 5000000) {
-            ws.send(output);
-            console.log("from docker : " + output);
-          } else {
-            console.log("> too much outputs detected");
-            limitReached = true;
+	logger.log("connected");
 
-            ws.send(" -- Détection de boucle infinie. -- ");
-            dockerSocket.close();
-            ws.close();
-            delete dockerSocket;
-          }
-        }
-      });
-     
-      dockerSocket.on('close', function close() {
-        console.log('> disconnected from docker');
-        ws.close();
-      });
+	let dockerSocket;
+	let containerId;
+	let firstMessage = true;
+	let totalOutputLength = 0;
+	let maxOutputLengthReached = false;
 
-      firstMessage = false;
-    }
-    else {
-      dockerSocket.send(input);
-      console.log("from web : " + input);
-    }
+	clientSocket.on('message',async function ( input ) {
+		// The first message contains the container ID
+		//  other message send afterwardd are user input for the program
 
-  });
+		if( firstMessage ) {
+			logger.log(`Data : Client → Server (init)`);
+
+			containerId = input.toString('utf8');
+			dockerSocket = new WebSocket(`ws://${docker_api_host}:${docker_api_port}/containers/${containerId}/attach/ws?stream=1&stdout=1&stdin=1&logs=1`);
+
+			dockerSocket.on( 'open' , function () {
+				logger.log("Succesfully connected to the docker api");
+				dockerSocket.send("\n");
+				// We must send a char to finish the read command which happend before the program runs
+				//  this is here to make the program wait someone to be connected before running
+				//  otherwise the program might run and end before the user got the time to connect to it
+			});
+
+			dockerSocket.on( 'error' , function ( error ) {
+				logger.error( 'Error comming from the docker API :', error );
+			} );
+
+			dockerSocket.on( 'message', function (output) {
+				if (!maxOutputLengthReached) {
+					totalOutputLength += output.length;
+					if (totalOutputLength < max_length_allowed_output) {
+						logger.log(`Data : Client ← Server (length: ${output.length})`)
+						clientSocket.send(output);
+					} else {
+						logger.log("Too much output from this container");
+						maxOutputLengthReached = true;
+
+						cliebtSocket.send(" -- Détection de boucle infinie. -- ");
+						dockerSocket.close();
+						clientSocket.close();
+						delete dockerSocket;
+					}
+				}
+			});
+
+			dockerSocket.on('close', function () {
+				logger.log("Disconnected");
+				clientSocket.close();
+			});
+
+			firstMessage = false;
+		} else {
+			dockerSocket.send(input);
+			logger.log(`Data : Client → Server (user input,length: ${input.length})`);
+		}
+
+	});
 });
 
-ws.on('close', function close() {
-  console.log('> client disconnected');
+wss.on( 'close' , function close() {
+	console.log('> client disconnected');
 });
 
-console.log(" WS listening on port " + _port);
+console.log( Logger.now() , `WebSocketServer listening on port ${server_port} `);
+
+
+

@@ -1,6 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-docker build  --no-cache --tag  py_lide ./py/
-docker build  --no-cache --tag  cpp_lide ./cpp/
-docker build  --no-cache --tag  java_lide ./java/
-#docker build  --no-cache --tag  php_lide ./php/
+# Ci-dessous la liste des images à build
+liste=( py cpp java )
+
+
+# éxécution en parrallele
+for img in ${liste[*]}
+do
+	docker build --no-cache --tag ${img}_lide ./${img}/ &
+done
+wait

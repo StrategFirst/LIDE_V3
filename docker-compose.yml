@@ -10,8 +10,6 @@ services:
       MONGO_INIT_DATABASE: ${LIDE_DB_NAME}
       MONGO_INIT_ROOT_USERNAME: ${LIDE_DB_USERNAME}
       MONGO_INIT_ROOT_PASSWORD: ${LIDE_DB_PASSWORD}
-    ports:
-      - ${LIDE_PORT_EXPOSE_DB}:${LIDE_PORT_INTERN_DB}
     networks:
       - lidenetwork
 

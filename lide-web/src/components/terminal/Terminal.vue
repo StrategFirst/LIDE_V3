@@ -41,7 +41,7 @@ export default {
 			this.socket = new WebSocket(`ws:${window.location.hostname}:10001/`); //new WebSocket("ws:localhost:10001/");
 			this.socket.onopen = () => {
 				// on récupère l'identifiant du conteneur
-				this.socket.send(Object.values(containerId)[0]);
+				this.socket.send(containerId);
 			};
 			// Liaison socket-terminal
 			this.terminal.loadAddon(new AttachAddon(this.socket, { bidirectional: true }));

@@ -92,7 +92,7 @@ exports.execute = async (req, res) => {
 
 		// Récupération de l'id du conteneur
 		containerId = execSync('docker inspect --format=\'{{.Id}}\' ' + containerName).toString();
-		containerId = containerId.substr(0, containerId.length - 1);
+		containerId = containerId.substr(0, containerId.length - 1); // Vu qu'il s'agit d'une commande un retour à la ligne final est rajouter il faut donc le retirer
 		res.status(200).json({ containerid: containerId });
 	} catch (error) {
 		console.error(error);

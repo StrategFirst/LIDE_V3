@@ -38,3 +38,4 @@ clean-database:
 clean-full: clean-containers clean-images clean-database
 
 
+purge: clean-full

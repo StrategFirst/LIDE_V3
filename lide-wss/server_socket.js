@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const { execSync } = require('child_process');
 
 const Logger = require('./logger.js');
 
@@ -29,6 +30,20 @@ wss.on('connection', function ( clientSocket ) {
 			logger.log(`Data : Client → Server (init)`);
 
 			containerId = input.toString('utf8');
+			// Vérification que le containerId ne contient que l'id et pas d'instruction malveillante
+			if( ! containerId.match(/^([0-9a-z]+)$/i) ) {
+				logger.log('Interruption : identifiant invalide !');
+				clientSocket.send(" -- Identifiant soumis invalide -- ");
+				clientSocket.close();
+				return;
+			}
+			// Vérification que l'id fourni correspond à un docker dont l'accès est permis
+			if( ! execSync(`docker container ls --filter "id=${containerId}" --format "{{.Names}}"`).toString('utf8').replace(/\n/g,'').match(/lide-user-([a-z0-9A-Z\._\-]+)/) ) {
+				logger.log('Interruption : identifiant suspet !');
+				clienSocket.send(" -- Identifaint soumis invalide -- ");
+				clientSocket.close();
+				return;
+			}
 			dockerSocket = new WebSocket(`ws://${docker_api_host}:${docker_api_port}/containers/${containerId}/attach/ws?stream=1&stdout=1&stdin=1&logs=1`);
 
 			dockerSocket.on( 'open' , function () {

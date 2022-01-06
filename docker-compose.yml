@@ -10,8 +10,6 @@ services:
       MONGO_INIT_DATABASE: ${LIDE_DB_NAME}
       MONGO_INIT_ROOT_USERNAME: ${LIDE_DB_USERNAME}
       MONGO_INIT_ROOT_PASSWORD: ${LIDE_DB_PASSWORD}
-    ports:
-      - ${LIDE_PORT_EXPOSE_DB}:${LIDE_PORT_INTERN_DB}
     networks:
       - lidenetwork
 
@@ -84,6 +82,8 @@ services:
       MAX_LENGTH_OUTPUT_ALLOWED: ${MAX_LENGTH_OUTPUT_ALLOWED}
     env_file:
       - .env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /app
     entrypoint: node server_socket.js
     network_mode: host

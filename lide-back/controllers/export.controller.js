@@ -1,49 +1,61 @@
+
+const { execSync } = require('child_process');
+const { writeFile } = require('fs');
+
 const UserService = require('../services/db/user.service');
-const { execSync, exec } = require('child_process');
 const FileService = require('../services/db/file.service');
 
 exports.getExport = async (req, res) => {
-    const username = req.params.username;
+	const username = req.params.username;
+	let mode;
+	switch( req.query.type.toLowerCase() ) {
+		case 'tgz':
+			mode = 'tgz';
+			break;
+		case 'zip':
+		default:
+			mode: 'zip';
+			break;
+	}
 
-    try {
-    let result = await UserService.getProjects(username)
-        .catch((err) => {
-            res.status(400).json({
-                error: err.message,
-            });
-        });
-    
-    for (const projet of result){
-        for (const projetFile of projet.files){
-            //pas de filecontent dans getProjects alors on recharge les fichiers en entiers
-            const projectname = projet.projectname;
+	try {
+		let result = await UserService.getProjects(username);
 
-            // récupération du fichier
-            const file = await FileService.get(username, projetFile._id).catch((error) => { res.status(200).json(error); });
-            const filename = file.filename;
-            const extension = file.extension.replace('.', '');
-            const fileContent = file.content;
-            // Recréation
-            execSync('mkdir -p /lide-export/' + username + '/' + projectname);
+		for (const projet of result) {
+			const projectname = projet.projectname;
+			execSync(`mkdir -p /lide-export/${username}/${projectname}`);
 
-            let filePath = '/lide-export/' + username + '/' + projectname + '/' + filename + '.' + extension;
+			for (const projetFile of projet.files) {
+				// Propriété du fichier
+				const file = await FileService.get(username, projetFile._id);
+				const filePath = `/lide-export/${username}/${projectname}/${file.filename}${file.extension}`;
+				const fileContent = file.content;
 
-            // Remplir le contenu du fichier
-            execSync('echo \'' + fileContent + '\' > ' + filePath);
-        }
-    }
+				// Ecriture
+				await new Promise( ( resolve , reject ) => {
+					writeFile( filePath , fileContent , (err) => {
+						if( err ) reject( err );
+						else resolve();
+					} );
+				} );
+		  	}
+	 	}
 
-execSync('zip -r /lide-export/'+username + '/' + username +'.zip /lide-export/' + username + '/');
+		switch( req.query.type.toLowerCase() ) {
+			case 'tgz':
+				execSync(`tar -zcvf /lide-export/${username}.tgz /lide-export/${username}/*`);
+				res.send(`/lide-export/${username}.tgz`);
+				execSync(`rm -rf /lide-export/${username}.tgz /lide-export/${username}/`);
+			case 'zip':
+			default:
+				execSync(`zip -r /lide-export/${username}.zip /lide-export/${username}/`);
+				res.sendFile(`/lide-export/${username}.zip`);
+				execSync(`rm -rf /lide-export/${username}.zip /lide-export/${username}/`);
+			break;
+		}
+	} catch (error) {
+		console.error("Problème durant l'export", error);
+		res.sendStatus(400);
+	}
 
-res.download("/lide-export/" + username + '/' + username+".zip");
-
-//on nettoie les fichiers 
-exec('sleep 3 && rm -Rf /lide-export/'+username);
-
-
-
-}catch (error) {
-    console.error("probleme sur le zip' :"+error);
-    res.status(400);    
-  }
-};
+}

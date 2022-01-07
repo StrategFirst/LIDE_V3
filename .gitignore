@@ -3,3 +3,4 @@
 package-lock.json
 .idea/
 lide-back/HTTPS_CREDENTIALS/*
+lide-web/HTTPS_CREDENTIALS/*

@@ -5,7 +5,8 @@ const http = require("http");
 const https = require("https");
 const fs = require("fs");
 
-const portHTTP = process.env.SERVER_PORT;
+//const portHTTP = process.env.SERVER_PORT;
+const portHTTPS = process.env.SERVER_PORT;
 const app = express();
 const db = require("./db");
 const { request } = require("http");
@@ -18,17 +19,16 @@ app.use(express.json());
 /* --- Ensemble des routes --- */
 app.use("/api/v1", router);
 
+/* --- Configuration HTTPS --- */
+let credentials = {
+	key: fs.readFileSync('/app/HTTPS_CREDENTIALS/privkey.pem'),
+	cert: fs.readFileSync('/app/HTTPS_CREDENTIALS/cert.pem'),
+	ca: fs.readFileSync('/app/HTTPS_CREDENTIALS/chain.pem'),
+}
+
 /* --- Lancement du serveur back --- */
-let httpServer = http.createServer( app );
-
-httpServer.listen( portHTTP , () => console.log(`HTTP ready on port ${portHTTP}`) );
-
-
-/*
- Si HTTPS prêt :
-
-const portHTTPS = // à définir //;
+//let httpServer = http.createServer( app );
 let httpsServer = https.createServer( credentials , app );
-httpsServer.listen( portHTTPS , () => console.log(`HTTPS ready on port ${portHTTPS}`) );
 
-*/
+//httpServer.listen( portHTTP , () => console.log(`HTTP ready on port ${portHTTP}`) );
+httpsServer.listen( portHTTPS , () => console.log(`HTTPS ready on port ${portHTTPS}`) );

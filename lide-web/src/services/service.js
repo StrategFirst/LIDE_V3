@@ -1,4 +1,4 @@
-const PROTOCOL = 'http';
+const PROTOCOL = 'https';
 const HOSTNAME = window.location.hostname;
 const PORT = '10000';
 const VERSION = 'v1';

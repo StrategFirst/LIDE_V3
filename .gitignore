@@ -2,3 +2,4 @@
 *.log
 package-lock.json
 .idea/
+lide-back/HTTPS_CREDENTIALS/*

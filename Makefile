@@ -31,9 +31,9 @@ stop:
 clean-containers:
 	docker container rm -f lide-back lide-wss lide-web lide-database $$(docker container ls --format "{{.Names}}" | grep lide-user- | tr "\n" " ")
 clean-images:
-	docker image rm $$(docker images --format "{{.Repository}}" | grep lide | tr "\n" " ")
+	docker image rm -f $$(docker images --format "{{.Repository}}" | grep lide | tr "\n" " ")
 clean-database:
-	docker volume rm $$(docker volume ls --format "{{.Name}}" | grep lide | tr "\n" " ")
+	docker volume rm -f $$(docker volume ls --format "{{.Name}}" | grep lide | tr "\n" " ")
 
 clean-full: clean-containers clean-images clean-database
 

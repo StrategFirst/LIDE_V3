@@ -1,15 +1,20 @@
-const express = require("express");
-const router = require("./router");
-const cors = require("cors");
-const http = require("http");
+/* --- Imports bibliothèques --- */
+// Default nodejs
 const https = require("https");
 const fs = require("fs");
 
-//const portHTTP = process.env.SERVER_PORT;
-const portHTTPS = process.env.SERVER_PORT;
-const app = express();
+// npm libraries
+const express = require("express");
+const cors = require("cors");
+
+// local files
 const db = require("./db");
-const { request } = require("http");
+const router = require("./router");
+
+/* --- --- */
+const portHTTPS = process.env.SERVER_PORT;
+
+const app = express();
 
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();
@@ -21,14 +26,12 @@ app.use("/api/v1", router);
 
 /* --- Configuration HTTPS --- */
 let credentials = {
-	key: fs.readFileSync('/app/HTTPS_CREDENTIALS/privkey.pem'),
-	cert: fs.readFileSync('/app/HTTPS_CREDENTIALS/cert.pem'),
-	ca: fs.readFileSync('/app/HTTPS_CREDENTIALS/chain.pem'),
+	key: fs.readFileSync('/HTTPS_CREDENTIALS/privkey.pem'),
+	cert: fs.readFileSync('/HTTPS_CREDENTIALS/cert.pem'),
+	ca: fs.readFileSync('/HTTPS_CREDENTIALS/chain.pem'),
 }
 
 /* --- Lancement du serveur back --- */
-//let httpServer = http.createServer( app );
 let httpsServer = https.createServer( credentials , app );
 
-//httpServer.listen( portHTTP , () => console.log(`HTTP ready on port ${portHTTP}`) );
 httpsServer.listen( portHTTPS , () => console.log(`HTTPS ready on port ${portHTTPS}`) );

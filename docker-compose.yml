@@ -29,6 +29,7 @@ services:
       - ./lide-back:/app
       - /lide-data:/lide-data
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./HTTPS_CREDENTIALS/:/HTTPS_CREDENTIALS/
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       DB_HOST: ${LIDE_CONTAINER_DB}
@@ -55,6 +56,7 @@ services:
     volumes:
       - /app/node_modules
       - ./lide-web:/app
+      - ./HTTPS_CREDENTIALS/:/HTTPS_CREDENTIALS/
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       LIDE_BACK_PORT: ${LIDE_PORT_INTERN_BACK}
@@ -84,6 +86,7 @@ services:
       - .env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./HTTPS_CREDENTIALS/:/HTTPS_CREDENTIALS/
     working_dir: /app
     entrypoint: node server_socket.js
     network_mode: host

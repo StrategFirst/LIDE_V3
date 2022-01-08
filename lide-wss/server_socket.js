@@ -11,8 +11,8 @@ const docker_api_host = process.env.DOCKER_API_HOST;
 const max_length_allowed_output = process.env.MAX_LENGTH_OUTPUT_ALLOWED;
 
 const server = https.createServer({
- cert: readFileSync('./cert.pem'),
- key: readFileSync('./privkey.pem'),
+ cert: readFileSync('/HTTPS_CREDENTIALS/cert.pem'),
+ key: readFileSync('/HTTPS_CREDENTIALS/privkey.pem'),
 });
 const wss = new WebSocket.Server( { server } );
 server.listen( server_port );

@@ -1,4 +1,6 @@
 const WebSocket = require('ws');
+const https = require('https');
+const { readFileSync } = require('fs');
 const { execSync } = require('child_process');
 
 const Logger = require('./logger.js');
@@ -8,8 +10,12 @@ const docker_api_port = process.env.DOCKER_API_PORT;
 const docker_api_host = process.env.DOCKER_API_HOST;
 const max_length_allowed_output = process.env.MAX_LENGTH_OUTPUT_ALLOWED;
 
-const wss = new WebSocket.Server({ port: server_port });
-
+const server = https.createServer({
+ cert: readFileSync('/HTTPS_CREDENTIALS/cert.pem'),
+ key: readFileSync('/HTTPS_CREDENTIALS/privkey.pem'),
+});
+const wss = new WebSocket.Server( { server } );
+server.listen( server_port );
 wss.on('connection', function ( clientSocket ) {
 
 	const logger = new Logger();
@@ -94,7 +100,7 @@ wss.on( 'close' , function close() {
 	console.log('> client disconnected');
 });
 
-console.log( Logger.now() , `WebSocketServer listening on port ${server_port} `);
 
+console.log( Logger.now() , `WebSocketServer listening on port ${server_port} `);
 
 

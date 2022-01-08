@@ -38,7 +38,7 @@ export default {
 			}
 			// this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
 			// (Tanguy) en local il faut utiliser le web socket local donc ws:localhost:10001/
-			this.socket = new WebSocket(`ws:${window.location.hostname}:10001/`); //new WebSocket("ws:localhost:10001/");
+			this.socket = new WebSocket(`wss://${window.location.hostname}:10001/`); //new WebSocket("ws:localhost:10001/");
 			this.socket.onopen = () => {
 				// on récupère l'identifiant du conteneur
 				this.socket.send(containerId);

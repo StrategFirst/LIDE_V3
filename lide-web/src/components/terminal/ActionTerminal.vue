@@ -8,6 +8,21 @@
   >
     <div class="d-flex justify-space-between">
       <span class="ml-2">TERMINAL</span>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+           size="18"
+           color="blue"
+           class="loading"
+           v-bind="attrs"
+           v-on="on"
+           v-show="checkExecutionInProgress()"
+           >mdi-loading</v-icon>
+        </template>
+        <span> Exécution en cours ... </span>
+      </v-tooltip>
+
       <div class="mx-5">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -95,5 +110,19 @@ export default {
   font-weight: bold;
   font-size: 0.775rem;
   letter-spacing: 0.1rem;
+}
+
+.loading {
+  animation: rotate 2s linear forwards infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate( 0turn);
+  }
+
+  to {
+    transform: rotate( 1turn);
+  }
 }
 </style>

@@ -72,13 +72,10 @@ export default {
   },
   computed: {
     ...mapState({
-      // (Tanguy) On récupére le nom d'utilisateur
-      username: (state) => localStorage.getItem("username")
+      username: function (state) { this.$store.getters['user/username'] }
     }),
     initials: function () {
-      let initialsStr = this.username[0] + this.username[1];
-      initialsStr = initialsStr.toUpperCase();
-      return initialsStr;
+      return this.$store.getters['user/username'].substr(0,2).toUpperCase();
     },
     explorerDrawer: {
       get() {

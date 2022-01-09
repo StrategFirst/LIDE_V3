@@ -13,13 +13,12 @@ const getters = {
 
 const actions = {
 
-    setUsername({commit}, username){
-        commit('SET_USERNAME', username)
-    },
-    async createUser(context) {
-        let response = await service.createUser(context.getters.username, context.getters.password);
+    async createUser( {commit} , { username, password} ) {
+        let response = await service.createUser( username, password );
 	if( response.status == 200 ) {
-            localStorage.username = context.getters.username;
+            commit("SET_USERNAME", username);
+            let data = await response.json();
+            localStorage.authtoken = data.token;
             return response;
 	} else
             throw response;

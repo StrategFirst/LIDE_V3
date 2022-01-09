@@ -1,49 +1,27 @@
 import API from "./service.js";
 
-function get(fileid) {
-	return API.get(`/file/${fileid}/${localStorage.username}`);
+function get(fileid, username) {
+	return API.get(`/file/${fileid}/${username}`);
 }
 
-function create(projectid, filename, extension) {
-	return API.post('/file',
-		{
-			username: localStorage.username,
-			projectid: projectid,
-			filename: filename,
-			extension: extension,
-		}
-	)
+function create(projectid, filename, extension, username) {
+	return API.post('/file', { username, projectid, filename, extension } );
 }
 
-function remove(fileid) {
-	return API.delete(`/file/${fileid}`,
-		{
-			username: localStorage.username
-		}
-	);
+function remove(fileid, username) {
+	return API.delete(`/file/${fileid}`, { username } );
 }
 
-function rename(fileid, newfilename, extension) {
-	return API.put(`/file/${fileid}?rename=true`,
-		{
-			username: localStorage.username,
-			newfilename: newfilename,
-			extension: extension
-		}
-	);
+function rename(fileid, newfilename, extension, username) {
+	return API.put(`/file/${fileid}?rename=true`, { username, newfilename, extension } );
 }
 
-function save(fileid, content) {
-	return API.put(`/file/${fileid}?save=true`,
-		{
-			username: localStorage.username,
-			content: content,
-		}
-	);
+function save(fileid, content, username) {
+	return API.put(`/file/${fileid}?save=true`, { username, content } );
 }
 
-function execute(fileid) {
-	return API.get(`/execute/${fileid}/${localStorage.username}`);
+function execute(fileid, username) {
+	return API.get(`/execute/${fileid}/${username}`);
 }
 
 export default {

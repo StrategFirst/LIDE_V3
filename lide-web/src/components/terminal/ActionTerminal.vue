@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     kill() {
-      ExecService.killExecution()
+      ExecService.killExecution( this.$store.getters['user/username'] )
         .then(() => {
           this.$root.$refs.Terminal.terminal.reset();
           this.$store.dispatch("notification/notif", {

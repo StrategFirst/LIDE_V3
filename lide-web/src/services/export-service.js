@@ -1,7 +1,7 @@
 import API from "./service.js";
 
-function exporter() {
-	return API.get(`/export/${localStorage.username}`);
+function exporter(username) {
+	return API.get(`/export/${username}`);
 }
 
 export default {

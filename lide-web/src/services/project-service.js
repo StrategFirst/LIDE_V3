@@ -4,30 +4,16 @@ function get( projectid ) {
 	return API.get(`/project/${projectid}`);
 }
 
-function create( projectName ) {
-	return API.post( '/project' ,
-		{
-			projectname: projectName,
-			username: localStorage.username
-		}
-	);
+function create( projectName , username ) {
+	return API.post( '/project' , { projectName, username } );
 }
 
-function remove( projectID ) {
-	return API.delete( `/project/${projectID}` ,
-		{
-			username: localStorage.username
-		}
-	);
+function remove( projectID , username ) {
+	return API.delete( `/project/${projectID}` , { username } );
 }
 
-function rename( projectID , newProjectName ) {
-	return API.put( `/project/${projectID}?rename=true` ,
-		{
-			newprojectname: newProjectName,
-			username: localStorage.username
-		}
-	);
+function rename( projectID , newprojectname , username ) {
+	return API.put( `/project/${projectID}?rename=true` , { username, newprojectname } );
 }
 
 

@@ -138,7 +138,7 @@ export default {
 			this.dialogExport = true;
 		},
 		async exportFile() {
-			await ExportService.exporter()
+			await ExportService.exporter( this.$store.getters['user/username'] )
 				.then((res) => {
 					const url = window.URL.createObjectURL(new Blob([res.data]));
 					const link = document.createElement("a");

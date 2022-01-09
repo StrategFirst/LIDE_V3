@@ -329,7 +329,7 @@ export default {
 		// Appelée par le bouton d'exécution
 		async exec(tab) {
 			await this.saveTab(tab);
-			FileService.execute(tab.file._id)
+			FileService.execute(tab.file._id, this.$store.getters['user/username'])
 				.then((res) => res.json() )
 				.then( data => this.$root.$refs.Terminal.openSocket(data.containerid) )
 				.catch((error) => {

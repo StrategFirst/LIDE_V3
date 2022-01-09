@@ -74,7 +74,6 @@ export default {
     explorerDrawer: null,
   }),
   created() {
-    this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
     this.$store.dispatch("project/fetchProjects");
     if (this.$store.state.settings.darkMode)
       this.$store.dispatch("settings/setTheme", "base16-dark");

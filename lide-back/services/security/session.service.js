@@ -4,15 +4,15 @@ const privateKey = process.env.JWT_PRIVATE_KEY;
 
 const duration = '1h';
 
-exports.getSession = async (username) => {
+exports.generate = (username) => {
   return jwt.sign({username: username}, privateKey, {expiresIn: duration});
 };
 
-exports.validateSession = (session) => {
+exports.validate = (session) => {
   try {
     const decodedSession = jwt.verify(session, privateKey);
-    return decodedSession.username;
+    return { username: decodedSession.username };
   } catch (error) {
-    return false;
+    return null;
   }
 };

@@ -23,12 +23,12 @@ const actions = {
     /**
     * Ouvre un onglet selon son id en définissant l'onglet courant
     */
-    async newTab({ state, commit, dispatch }, fileId) {
+    async newTab({ state, commit, dispatch, rootState }, fileId) {
         const tab = state.tabs.find((tab) => tab.id == fileId);
         // si rechargement de la page, on ne souhaite pas récupérer le fichier depuis la bdd (évite de perdre le travail en cours)
         if (tab == null) {
             // sinon on récupère le fichier en bdd
-            await FileService.get(fileId)
+            await FileService.get(fileId, rootState.user.username)
                 .catch((err) => { console.error(err); })
                 .then((res) => {
                     // (Tanguy) 'res' est un promise desormait il faut donc modifier le code en récupérant la valeur de cette promise
@@ -48,8 +48,8 @@ const actions = {
     /** 
      * Sauvegarde le fichier associé à un onglet
     */
-    async saveTab({ state }, tab) {
-        await FileService.save(tab.file._id, tab.file.content)
+    async saveTab({ state, rootState }, tab) {
+        await FileService.save(tab.file._id, tab.file.content, rootState.user.username)
             .then(tab.oldContent = tab.file.content);
     },
 

@@ -11,8 +11,8 @@ const actions = {
     // (Tanguy) Crée un fichier puis retourne un objet de type 'file' qui est contenu dans une promise donc 'res' 
     // contient une promise, je retourne une promise car une promise contient un status ce qui me permet de 
     // comparer dans 'TreeviewExplorer' si le back a réussi à créer un fichier ou non  
-    async create({ dispatch }, { projectid, filename, extension }) {
-        return await FileService.create(projectid, filename, extension).then(res => {
+    async create({ dispatch, rootState }, { projectid, filename, extension }) {
+        return await FileService.create(projectid, filename, extension, rootState.user.username ).then(res => {
             dispatch("project/fetchProjects", null, { root: true }); 
             return res;   
         });
@@ -20,8 +20,8 @@ const actions = {
 
     // (Tanguy) Le fonctionnement de cette fonction reste similaire à la fonction create qui est juste au-dessus sauf 
     // qu'ici je vérifie qu'un tab(onglet) est présente pour le renommer  
-    async rename({ dispatch }, { fileid, newfilename, extension }) {
-        return await FileService.rename(fileid, newfilename, extension)
+    async rename({ dispatch, rootState }, { fileid, newfilename, extension }) {
+        return await FileService.rename(fileid, newfilename, extension, rootState.user.username )
                 .then(async (res) => {
                     if(res.status == 200){
                         let tab = await dispatch("tab/getTab", fileid, { root: true });7
@@ -35,8 +35,8 @@ const actions = {
                 });
     },
 
-    async remove({ dispatch }, fileid) {
-        FileService.remove(fileid).then(async () => {
+    async remove({ dispatch, rootState }, fileid) {
+        FileService.remove(fileid, rootState.user.username).then(async () => {
             let tab = await dispatch("tab/getTab", fileid, { root: true });
             dispatch("tab/closeTab", tab, { root: true });
             dispatch("project/fetchProjects", null, { root: true });

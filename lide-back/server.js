@@ -5,7 +5,6 @@ const fs = require("fs");
 
 // npm libraries
 const express = require("express");
-const cors = require("cors");
 
 // local files
 const db = require("./db");
@@ -18,8 +17,6 @@ const app = express();
 
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();
-app.use(cors());
-app.use(express.json());
 
 /* --- Ensemble des routes --- */
 app.use("/api/v1", router);
@@ -28,7 +25,6 @@ app.use("/api/v1", router);
 let credentials = {
 	key: fs.readFileSync('/HTTPS_CREDENTIALS/privkey.pem'),
 	cert: fs.readFileSync('/HTTPS_CREDENTIALS/cert.pem'),
-	ca: fs.readFileSync('/HTTPS_CREDENTIALS/chain.pem'),
 }
 
 /* --- Lancement du serveur back --- */

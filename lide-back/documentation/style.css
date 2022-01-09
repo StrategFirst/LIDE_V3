@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+/* -- General -- */
+html, body {
+	margin: 0;
+	padding: 0;
+	border: none;
+
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+
+	background: #15151b;
+	color: white;
+}
+
+/* -- Header -- */
+header {
+	display: block;
+	width: 100%;
+	height: auto;
+
+	background: #2455B6;
+
+	padding: 1rem 0;
+	margin: 0;
+}
+
+header h1 {
+	color: white;
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+/* -- Content -- */
+main {
+	margin: 1rem;
+	overflow-y: auto;
+	height: 80%;
+	padding: 1rem 0;
+}
+main {
+	scrollbar-color: #7696D6 #15151b;
+	scrollbar-width: thin;
+	scroll-behavior: smooth;
+}
+
+main::-webkit-scrollbar {
+    width: 8px;
+    background-color: #15151b;
+}
+main::-webkit-scrollbar-thumb {
+    background-color: #7696D6;
+    border-radius: 2px;
+}
+
+
+section {
+	margin-bottom: 1rem;
+}
+
+section h4 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	font-size: 20pt;
+	margin: .2rem;
+	text-align: center;
+
+}
+
+
+article {
+	font-family: monospace;
+	padding-bottom: 1rem;
+}
+
+article h5 {
+	font-famiy: monospace;
+	font-size: 12pt;
+	display: inline;
+	margin: 0 .5rem;
+}
+
+article h5.method:before {
+	color: white;
+	font-size: 13pt;
+	font-family: monospace;
+	font-weight: bold;
+	border-radius: 5px;
+	padding: 2px 5px;
+	margin: 0 .2rem;
+}
+
+article h5.method.GET:before {
+	content: 'GET';
+	background-color: #47F;
+}
+article h5.method.POST:before {
+	content: 'POST';
+	background-color: #7D7;
+}
+article h5.method.HEAD:before {
+	content: 'HEAD';
+	background-color: #CCC;
+}
+article h5.method.PUT:before {
+	content: 'PUT';
+	background-color: #FB5;
+}
+article h5.method.DELETE:before {
+	content: 'DELETE';
+	background-color: #F00;
+}
+article h5.method.OPTIONS:before {
+	content: 'OPTIONS';
+	background-color: #DD0;
+}
+
+article p {
+
+}
+
+section ~ section:before {
+	content: '';
+	display: block;
+	width: 80%;
+	margin: 0 auto;
+	height: 1px;
+	background-color: #666;
+}
+
+article input {
+	display: none;
+}
+
+article input:not(:checked) ~ :not(.force-visible) {
+	display: none;
+}
+
+
+article label b {
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 16pt;
+}

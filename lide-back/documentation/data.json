@@ -1,0 +1,441 @@
+[
+	{
+		"name": "User",
+		"routes": [
+			{
+				"name": "Get all user",
+				"method": "GET",
+				"path": "/user/all",
+				"description": "Retourne tous les utilisateurs de la base de données, seulement pour les enseignants.",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête acceptée",
+						"data": { "users": "<array <object [username <string>,userid <string>]>>" }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas suffisament de droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Accès refusé, vous devez être connecté.",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+
+			},
+			{
+				"name": "Connect user",
+				"method": "POST",
+				"path": "/user/login",
+				"description": "Connexion utilisateur",
+				"input": { "username": "string", "password": "string" },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête acceptée",
+						"data": { "token" : "string" }
+					},
+					{
+						"code": 400,
+						"description": "Mot de passe ou identifiant incorrect",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			},
+			{
+				"name": "Disconnect user",
+				"method": "POST",
+				"path": "/user/logout",
+				"description": "Déconnexion utilisateur",
+				"input": {  },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête acceptée",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Accès refusé, vous devez être connecté.",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			}
+
+
+		]
+	},
+	{
+		"name": "File",
+		"routes": [
+			{
+				"name": "Get file",
+				"method": "GET",
+				"path": "/file/:fileid",
+				"description": "Récupère le contenu du fichier",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { "file": "<string>" }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas les droits sur ce fichier.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Accès refusé, requiert d'être connecté.",
+						"data": { }
+					},
+					{
+						"code": 404,
+						"description": "Fichier inexistant",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+
+			},
+			{
+				"name": "Edit file",
+				"method": "PUT",
+				"path": "/file/:fileid",
+				"description": "Récupère le contenu du fichier",
+				"input": { "file": "<string>" },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas les droits sur ce fichier.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Accès refusé, requiert d'être connecté.",
+						"data": { }
+					},
+					{
+						"code": 404,
+						"description": "Fichier inexistant",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+
+			},
+			{
+				"name": "Create file",
+				"method": "POST",
+				"path": "/file/:fileid",
+				"description": "Récupère le contenu du fichier",
+				"input": { "name": "<string>", "projectid": "<string>" },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas les droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Accès refusé, requiert d'être connecté.",
+						"data": { }
+					},
+					{
+						"code": 404,
+						"description": "Projet inexistant.",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+
+			},
+			{
+				"name": "Delete file",
+				"method": "DELETE",
+				"path": "/file/:fileid",
+				"description": "Récupère le contenu du fichier",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Fichier supprimer !",
+						"data": { }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas les droits sur ce fichier.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Accès refusé, requiert d'être connecté.",
+						"data": { }
+					},
+					{
+						"code": 404,
+						"description": "Fichier inexistant",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+
+			}
+		]
+	},
+	{
+		"name": "Project",
+		"routes": [
+			{
+				"name": "Get my project",
+				"method": "GET",
+				"path": "/project/",
+				"description": "Return all project own by the logged in user",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { "projects": "<array Project>" }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			},
+			{
+				"name": "Get other project",
+				"method": "GET",
+				"path": "/project/from/:userid",
+				"description": "Return all project own by the specify in user",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { "projects": "<array Project>" }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas suffisament de droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			},
+			{
+				"name": "Get project",
+				"method": "GET",
+				"path": "/project/:projectid",
+				"description": "Return all info about the project asked",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { "name": "<string>", "files": "<array File>" }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas suffisament de droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			},
+			{
+				"name": "Create project",
+				"method": "POST",
+				"path": "/project/",
+				"description": "Create a project",
+				"input": { "name" : "<string>"},
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { "name": "<string>", "files": "<array File>" }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			},
+			{
+				"name": "Delete",
+				"method": "DELETE",
+				"path": "/project/:projectid",
+				"description": "Delete the specify project and its files",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas suffisament de droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			}
+		]
+	},
+	{
+		"name": "Execution",
+		"routes": [
+			{
+				"name": "Run the code",
+				"method": "GET",
+				"path": "/exec/run/:fileid",
+				"description": "Execute a file",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { "containerid": "<hexstring>" }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas suffisament de droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+
+			},
+			{
+				"name": "Run the code",
+				"method": "POST",
+				"path": "/exec/kill/:fileid",
+				"description": "Kill the execution of a file",
+				"input": { },
+				"output": [
+					{
+						"code": 200,
+						"description": "Requête accepté",
+						"data": { }
+					},
+					{
+						"code": 401,
+						"description": "Accès refusé, vous n'avez pas suffisament de droits.",
+						"data": { }
+					},
+					{
+						"code": 403,
+						"description": "Refus : vous devez être connecté. ",
+						"data": { }
+					},
+					{
+						"code": 404,
+						"description": "Aucune execution sur ce fichier n'est en cour. ",
+						"data": { }
+					},
+					{
+						"code": 500,
+						"description": "Erreur interne",
+						"data": { }
+					}
+				]
+			}
+		]
+	}
+]

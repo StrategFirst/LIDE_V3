@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+
+	<head>
+		<meta charset="utf-8"/>
+		<title> LIDE Documentation API </title>
+		<link href="./doc/icon" rel="icon" type="image/png"/>
+		<link href="./doc/style" rel="stylesheet" type="text/css"/>
+	</head>
+
+	<body>
+
+		<header>
+			<h1> LIDE API Doc </h1>
+		</header>
+
+		<h2 style="color: red; text-align: center; font-size: 12pt;"> &#9888; Non valide ! &#9888; </h2>
+		
+		<main>
+			<script>
+const UID = ( function () { return this.count++; } ).bind( {count:0} );
+
+fetch( 'doc/content' )
+	.then( res => res.json() )
+	.then( data => {
+		console.log( data );
+		let slot = document.querySelector('main');
+
+		data.forEach( group => {
+			let h_group = document.createElement('section');
+			let group_name = document.createElement('h4');
+				group_name.innerText = group.name;
+				h_group.appendChild( group_name );
+
+			group.routes.forEach( route => {
+				let h_route = document.createElement('article');;
+				let route_UID = `link_${UID()}`;
+				let route_visible = document.createElement('input');
+					route_visible.id = route_UID;
+					route_visible.type = 'checkbox';
+					h_route.appendChild( route_visible );
+				let route_visible_span = document.createElement('label');
+					route_visible_span.innerHTML = '<b>&rArr;</b>';
+					route_visible_span.setAttribute( 'for' , route_UID );
+					route_visible_span.classList.add( 'force-visible' );
+					h_route.appendChild( route_visible_span );
+				let route_name = document.createElement('h5');
+					route_name.innerText = route.name;
+					route_name.classList.add( 'method' );
+					route_name.classList.add( route.method );
+					route_visible_span.appendChild( route_name );
+				let route_path = document.createElement('span');
+					route_path.innerText = route.path;
+					route_visible_span.appendChild( route_path );
+
+				let route_desc = document.createElement('p');
+					route_desc.innerText = route.description;
+					h_route.appendChild( route_desc );
+
+				let h_routeinput = document.createElement('fieldset');
+					h_routeinput.classList.add( 'input' );
+					h_route.appendChild( h_routeinput );
+				let routeinput_legend = document.createElement('legend');
+					routeinput_legend.innerText = 'input';
+					h_routeinput.appendChild( routeinput_legend );
+				let routeinput_liste = document.createElement('ul');
+					h_routeinput.appendChild( routeinput_liste );
+
+				Object.entries(route.input).forEach( ([key,value]) => {
+					let h_element = document.createElement('li');
+						h_element.innerHTML = `<b>${key}</b> : <i>${value.replace(/</g,'&lt;').replace(/>/,'&gt;')}</i>`;
+						routeinput_liste.appendChild( h_element );
+				} );
+
+
+				let h_routeoutput = document.createElement('fieldset');
+					h_routeoutput.classList.add( 'output' );
+					h_route.appendChild( h_routeoutput );
+				let routeoutput_legend = document.createElement('legend');
+					routeoutput_legend.innerText = 'output';
+					h_routeoutput.appendChild( routeoutput_legend );
+				route.output.forEach( output => {
+					let h_output = document.createElement('div');
+						h_routeoutput.appendChild( h_output )
+					let output_legend = document.createElement('label');
+						output_legend.innerText = output.code;
+						output_legend.classList.add( `code_${output.code.toString()[0]}XX` );
+						h_output.appendChild(output_legend);
+					let output_desc = document.createElement('span');
+						output_desc.innerText = ` : ${output.description}`;
+						h_output.appendChild(output_desc);
+					let h_outputlist = document.createElement('ul');
+					Object.entries(output.data).forEach( ([key,value]) => {
+						h_element = document.createElement('li');
+							h_element.innerHTML = `<b>${key}</b> : <i>${value.replace(/</g,'&lt;').replace(/>/,'&gt;')}</i>`;
+							h_outputlist.appendChild( h_element );
+					} );
+					h_output.appendChild( h_outputlist );
+				} );
+				h_group.appendChild( h_route );
+			} );
+			slot.appendChild( h_group );
+		} );
+	} );
+
+
+			</script>
+
+		</main>
+
+	</body>
+
+</html>

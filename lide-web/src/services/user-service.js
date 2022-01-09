@@ -1,19 +1,15 @@
 import API from "./service.js";
 
-function get() {
-	return API.get(`/user/${localStorage.username}`);
+function get( username ) {
+	return API.get(`/user/${username}`);
 }
 
-function getUserProjects() {
-	return API.get(`/user/projects/${localStorage.username}`);
-}
-
-function getProjectsFromUser(idUser) {
-	return API.post('/user/projectsFrom',{usernameFrom: idUser});
+function getUserProjects( username = '' ) {
+	return API.get(`/user/projects/${username}`);
 }
 
 function createUser(username,password) {
-	return API.post('/user',{username,password});
+	return API.post('/user', {username, password} );
 }
 
 function getAll() {
@@ -24,6 +20,5 @@ export default {
 	get,
 	getAll,
 	getUserProjects,
-	getProjectsFromUser,
 	createUser
 };

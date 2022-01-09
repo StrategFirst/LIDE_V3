@@ -66,10 +66,9 @@ export default {
 
 	methods: {
 		login: function () {
-			this.$store.dispatch('user/setUsername', this.username );
-                        this.$store.dispatch('user/setPassword', this.password );
-			this.$store.dispatch('user/createUser', this.$store)
-				.then( (response)=> {
+			let { password, username} = this;
+			this.$store.dispatch('user/createUser', {username, password})
+				.then( (response) => {
 					this.$router.push('/app');
 				} )
 				.catch( (response)=> {

@@ -1,66 +1,69 @@
+/* --------------- Librairies ----------------- */
+
 const express = require("express");
 const router = express.Router();
 
-/* --------------- Controllers----------------- */
+/* --------------- Controllers ---------------- */
 
-const user = require("./controllers/user.controller");
-const project = require("./controllers/project.controller");
-const file = require("./controllers/file.controller");
-const execution = require("./controllers/execution.controller");
-const session = require("./controllers/session.controller");
-const exporter = require("./controllers/export.controller");
-const mail = require("./controllers/mail.controller");
+const LoadController = name => require(`./controllers/${name}.controller`);
+const user 	= LoadController('user');
+const project 	= LoadController('project');
+const file 	= LoadController('file');
+const execution = LoadController('execution');
+const session 	= LoadController('session');
+const exporter 	= LoadController('exporter');
+const mail 	= LoadController('mail');
+const doc 	= LoadController('doc');
 
-/* ---------------- Security ------------------ */
+/* -------------- Middlewares ----------------- */
 
-const SessionService = require("./services/security/session.service");
+// Globaux
+const cors = require('cors');
+const json = require('express').json;
 
-/* ---------------- Routes -------------------- */
+router.use( cors() );
+router.use( json() );
 
-router.get("/user/all", ensureAuthenticated, user.getAll);
-router.post("/user", ensureAuthenticated, user.post); // Vérifie la validiter depuis le cas , s'il n'éxiste pas chez nous on le créer et dans tous les cas il se connecte
-router.delete("/user", ensureAuthenticated, user.delete);
-router.get("/user/projects/:username", ensureAuthenticated, user.getProjects);
-router.post("/user/projectsFrom", ensureAuthenticated, user.getProjectsFrom);
+// Spécifiques
+const verifAuth = require('./middlewares/verifAuth.middleware');
+const errorGest = require('./middlewares/error.middleware');
 
-// Routes de gestion des projets
-router.post("/project", ensureAuthenticated, project.create);
-router.get("/project/:projectid/:username", ensureAuthenticated, project.get);
-router.delete("/project/:projectid", ensureAuthenticated, project.delete);
-router.put("/project/:projectid", ensureAuthenticated, project.update);
+/* ----------------- Routes ------------------- */
 
-// Routes de gestion des fichiers
-router.post("/file", ensureAuthenticated, file.create);
-router.get("/file/:fileid/:username", ensureAuthenticated, file.get);
-router.delete("/file/:fileid", ensureAuthenticated, file.delete);
-router.put("/file/:fileid", ensureAuthenticated, file.update);
+// User
+router.post("/user"					, user.login );
+router.post("/user/disconnect", verifAuth		, user.disconnect );
+router.get ("/user/all", verifAuth			, user.getAllUser );
+router.get ("/user/projects/", verifAuth		, user.getProjects );
+router.get ("/user/projects/:username", verifAuth	, user.getProjects );
 
-// Route de compilation & exécution
-router.get("/execute/:fileid/:username", ensureAuthenticated, execution.execute);
-// Route d'arrêt de l'exécution
-router.post("/killexec", ensureAuthenticated, execution.killExec);
+// Projet
+router.post  ("/project", verifAuth			, project.create);
+router.get   ("/project/:projectid/:username", verifAuth, project.get);
+router.delete("/project/:projectid", verifAuth		, project.delete);
+router.put   ("/project/:projectid", verifAuth		, project.update);
 
-//route d'export
-router.get("/export/:username", ensureAuthenticated, exporter.getExport);
+// Fichier
+router.post  ("/file", verifAuth			, file.create);
+router.get   ("/file/:fileid/:username", verifAuth	, file.get);
+router.delete("/file/:fileid", verifAuth		, file.delete);
+router.put   ("/file/:fileid", verifAuth		, file.update);
 
-// Route de validation cas + génération du token de session
-router.get("/session", session.session);
+// Exécution
+router.get ("/execute/:fileid/:username", verifAuth	, execution.execute);
+router.post("/killexec", verifAuth			, execution.killExec);
 
-// Route de validation du token de session
-router.get("/validateSession", session.validateSession);
+// Export
+router.get("/export/:username", verifAuth		, exporter.getExport);
 
-//Route pour envoyer le mail
-router.post("/mail", mail.post);
+// Documentation
+router.get("/doc"		, doc.page );
+router.get("/doc/content"	, doc.data );
+router.get("/doc/icon"		, doc.icon );
+router.get("/doc/style"		, doc.style );
 
-async function ensureAuthenticated(req, res, next) {
-  const session = req.headers.session;
-  //const username = await SessionService.validateSession(session);
-  //if (!username) res.status(401).json("User is not authenticated");
 
-  // Toutes les requêtes se basent sur username étant donnée que le cas est désactivé,
-  // il n'y a plus de session qui est généré par conséquent il faut indiqué un utilisateur en dur
-  //req.username = "user2";
-  next();
-}
+router.use( errorGest );
 
+/* -- -- */
 module.exports = router;

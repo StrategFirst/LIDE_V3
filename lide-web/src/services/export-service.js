@@ -1,7 +1,7 @@
 import API from "./service.js";
 
 function exporter(format,username) {
-	return API.get(`/export/${localStorage.username}?type=${format}`)
+	return API.get(`/export/${username}?type=${format}`)
 		.then( (response) => response.blob() )
 		.then( (bytes) => {
 			let link = document.createElement('a');

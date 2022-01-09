@@ -14,7 +14,7 @@ const API = {
 function send(method, endpoint, data) {
 	return fetch(`${PROTOCOL}://${HOSTNAME}:${PORT}/api/${VERSION}${endpoint}`,{
 		method: method,
-		headers: {'Content-Type': 'application/json'},
+		headers: {'Content-Type': 'application/json','Authorization': `Bearer ${localStorage.authtoken}`},
 		body: ( data ) ? JSON.stringify(data) : undefined
     });
 }

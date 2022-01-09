@@ -19,36 +19,36 @@ const getters = {
 
 /* ------------------------- PROJECT ACTIONS ------------------------- */
 const actions = {
-    async fetchProjects({ commit }) {
-        await UserService.getUserProjects()
+    async fetchProjects({ commit, rootState }) {
+        await UserService.getUserProjects( )
             .then(res => {
                 res.json().then(value => commit("SET_PROJECTS", value));
             })
     },
 
-    async fetchProjectsFromUser({commit}, idUser){
-        await UserService.getProjectsFromUser(idUser)
+    async fetchProjectsFromUser({ commit }, usernameTarget ){
+        await UserService.getUserProjects( usernameTarget )
             .then(res => {
                 res.json().then(value => commit("SET_PROJECTS", value));
             })
     },
 
-    async create({ dispatch }, projectname) {
-        return await ProjectService.create(projectname).then((res) => {
+    async create({ dispatch , rootState }, projectname) {
+        return await ProjectService.create(projectname, rootState.user.username ).then((res) => {
                 dispatch('fetchProjects');
                 return res;
             })
     },
 
-    async remove({ dispatch }, projectid) {
-        await ProjectService.remove(projectid)
+    async remove({ dispatch , rootState }, projectid) {
+        await ProjectService.remove(projectid, rootState.user.username )
             .then(() => {
                 dispatch('fetchProjects');
             })
     },
 
-    async rename({ dispatch }, { projectid, newprojectname }) {
-        return await ProjectService.rename(projectid, newprojectname).then((res) => {
+    async rename({ dispatch, rootState }, { projectid, newprojectname }) {
+        return await ProjectService.rename(projectid, newprojectname, rootState.user.name ).then((res) => {
                 dispatch('fetchProjects');
                 return res;
             })

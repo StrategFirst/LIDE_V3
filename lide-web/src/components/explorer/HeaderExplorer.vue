@@ -140,8 +140,10 @@ export default {
 		openDialogExport() {
 			this.dialogExport = true;
 		},
+    
 		async exportFileZIP() { try { await ExportService.exporter('zip',this.username); this.dialogExport=false; } catch(err) { this.$store.dispatch("notification/notif", { texte: "Une erreur est survenue lors de l'exportation.", couleur: "error",	});} },
 		async exportFileTGZ() { try { await ExportService.exporter('tgz',this.username); this.dialogExport=false; } catch(err) { this.$store.dispatch("notification/notif", { texte: "Une erreur est survenue lors de l'exportation.", couleur: "error",	});} },
+
 	},
 	computed: {
 		...mapState({

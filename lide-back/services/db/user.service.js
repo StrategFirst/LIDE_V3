@@ -41,26 +41,18 @@ exports.getAll = async () => {
  * @return {User}
  *
  */
-exports.getOrCreate = async (username) => {
-  const match = {username: username};
+exports.getOrCreate = async (username,categorie) => {
+  const match = {username};
   let user = await User.findOne(match).catch((error) => {
     throw error;
   });
 
   if (user == null) {
-    user = await create(username).catch((error) => {
+    user = await create(username,categorie).catch((error) => {
       throw error;
     });
   }
 
-  return user;
-};
-
-exports.NewUser = async (username) => {
-  const match = {username: username};
-    user = await create(username).catch((error) => {
-      throw error;
-    });
   return user;
 };
 
@@ -71,8 +63,8 @@ exports.NewUser = async (username) => {
  * @return {User}
  *
  */
-const create = async (username) => {
-  const user = new User({username: username, projects: []});
+const create = async (username,categorie) => {
+  const user = new User({username, projects: [],categorie});
 
   await user
       .save()

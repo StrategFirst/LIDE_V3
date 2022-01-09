@@ -6,6 +6,7 @@ const UserService = require('../services/db/user.service');
 const FileService = require('../services/db/file.service');
 
 exports.getExport = async (req, res) => {
+
 	const username = req.params.username;
 	let mode;
 	switch( req.query.type.toLowerCase() ) {

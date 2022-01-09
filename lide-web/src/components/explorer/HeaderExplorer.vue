@@ -57,7 +57,7 @@
 			</v-card>
 		</v-dialog>
 
-		<v-dialog v-model="dialogExport" persistent max-width="270">
+		<v-dialog v-model="dialogExport" persistent width="auto">
 			<v-card
 				v-on:keydown.esc="dialogExport = false"
 				v-on:keydown.enter="exportFile"
@@ -72,8 +72,11 @@
 						@click="dialogExport = false"
 						>Annuler</v-btn
 					>
-					<v-btn color="green darken-1" small outlined @click="exportFile"
-						>Exporter</v-btn
+					<v-btn color="green darken-1" small outlined @click="exportFileZIP"
+						>Exporter (zip)</v-btn
+					>
+					<v-btn color="green darken-1" small outlined @click="exportFileTGZ"
+						>Exporter (tgz)</v-btn
 					>
 				</v-card-actions>
 			</v-card>
@@ -137,24 +140,10 @@ export default {
 		openDialogExport() {
 			this.dialogExport = true;
 		},
-		async exportFile() {
-			await ExportService.exporter( this.$store.getters['user/username'] )
-				.then((res) => {
-					const url = window.URL.createObjectURL(new Blob([res.data]));
-					const link = document.createElement("a");
-					link.href = url;
-					link.setAttribute("download", this.username + ".zip");
-					document.body.appendChild(link);
-					link.click();
-				})
-				.catch((error) => {
-					this.$store.dispatch("notification/notif", {
-						texte: "Une erreur est survenue lors de l'exportation.",
-						couleur: "error",
-					});
-				});
-			this.dialogExport = false;
-		},
+    
+		async exportFileZIP() { try { await ExportService.exporter('zip',this.username); this.dialogExport=false; } catch(err) { this.$store.dispatch("notification/notif", { texte: "Une erreur est survenue lors de l'exportation.", couleur: "error",	});} },
+		async exportFileTGZ() { try { await ExportService.exporter('tgz',this.username); this.dialogExport=false; } catch(err) { this.$store.dispatch("notification/notif", { texte: "Une erreur est survenue lors de l'exportation.", couleur: "error",	});} },
+
 	},
 	computed: {
 		...mapState({
@@ -162,6 +151,7 @@ export default {
 		}),
 	},
 };
+
 </script>
 
 <style scoped>

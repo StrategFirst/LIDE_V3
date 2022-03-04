@@ -74,7 +74,7 @@ wss.on('connection', function ( clientSocket ) {
 						logger.log("Too much output from this container");
 						maxOutputLengthReached = true;
 
-						cliebtSocket.send(" -- Détection de boucle infinie. -- ");
+						clientSocket.send(" -- Détection de boucle infinie. -- ");
 						dockerSocket.close();
 						clientSocket.close();
 						delete dockerSocket;

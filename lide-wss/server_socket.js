@@ -101,6 +101,6 @@ wss.on( 'close' , function close() {
 });
 
 
-logger.init( `WebSocketServer listening on port ${server_port} ` );
+Logger.init( `WebSocketServer listening on port ${server_port} ` );
 
 

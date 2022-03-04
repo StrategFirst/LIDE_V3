@@ -16,9 +16,9 @@ const server = https.createServer({
 });
 const wss = new WebSocket.Server( { server } );
 server.listen( server_port );
-wss.on('connection', function ( clientSocket ) {
+wss.on('connection', function ( clientSocket , request ) {
 
-	const logger = new Logger();
+	const logger = new Logger(request.socket.remoteAddress);
 
 	logger.log("connected");
 
@@ -101,6 +101,6 @@ wss.on( 'close' , function close() {
 });
 
 
-console.log( Logger.now() , `WebSocketServer listening on port ${server_port} `);
+logger.init( `WebSocketServer listening on port ${server_port} ` );
 
 

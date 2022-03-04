@@ -1,47 +1,26 @@
 
-const state = () => ({
-    actif: false,
-    texte: "Notification de base",
-    couleur: "success",
-});
+const state = () => ([]);
 
 const getters = {
-    actif(state) {
-        return state.actif;
-    },
-    texte(state) {
-        return state.texte;
-    },
-    couleur(state) {
-        return state.couleur;
+    last(state) {
+        return state[0];
     },
 }
 
 const actions = {
-    notif({ commit }, { texte, couleur }) {
-        commit('SET_TEXTE', texte);
-        commit('SET_COULEUR', couleur);
-        commit('SET_ACTIF', true);
+    notif({ commit }, { texte, type }) {
+        commit('AJOUT_NOTIF', { texte, type } );
     },
-    closeNotif({ commit }) {
-        commit('SET_ACTIF', false);
-    },
-    setTexte({ commit }, texte) {
-        commit('SET_TEXTE', texte);
-    },
-    setCouleur({ commit }, couleur) {
-        commit('SET_COULEUR', couleur);
+    lu({ commit }, _ ) {
+        commit('RETRAIT_NOTIF', _);
     },
 }
 
 const mutations = {
-    SET_ACTIF(state, actif) {
-        state.actif = actif;
-    },
-    SET_TEXTE(state, texte) {
+    AJOUT_NOTIF(state, {texte,type}) {
         state.texte = texte;
     },
-    SET_COULEUR(state, couleur) {
+    RETRAIT_NOTIF(state, _) {
         state.couleur = couleur;
     },
 }

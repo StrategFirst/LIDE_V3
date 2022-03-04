@@ -4,8 +4,8 @@ function get( projectid ) {
 	return API.get(`/project/${projectid}`);
 }
 
-function create( projectName , username ) {
-	return API.post( '/project' , { projectName, username } );
+function create( projectname , username ) {
+	return API.post( '/project' , { projectname, username } );
 }
 
 function remove( projectID , username ) {

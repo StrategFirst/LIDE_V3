@@ -46,12 +46,12 @@ exports.getExport = async (req, res) => {
 			case 'tgz':
 				execSync(`tar -zcvf /lide-export/${username}.tgz /lide-export/${username}/*`);
 				res.send(`/lide-export/${username}.tgz`);
-				execSync(`rm -rf /lide-export/${username}.tgz /lide-export/${username}/`);
+				execSync(`rm -rf /lide-export/${username}/`);
 			case 'zip':
 			default:
 				execSync(`zip -r /lide-export/${username}.zip /lide-export/${username}/`);
 				res.sendFile(`/lide-export/${username}.zip`);
-				execSync(`rm -rf /lide-export/${username}.zip /lide-export/${username}/`);
+				execSync(`rm -rf /lide-export/${username}/`);
 			break;
 		}
 	} catch (error) {

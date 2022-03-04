@@ -11,9 +11,9 @@ const project 	= LoadController('project');
 const file 	= LoadController('file');
 const execution = LoadController('execution');
 const session 	= LoadController('session');
-const exporter 	= LoadController('exporter');
+const exporter 	= LoadController('export');
 const mail 	= LoadController('mail');
-const doc 	= LoadController('doc');
+const doc 	= LoadController('documentation');
 
 /* -------------- Middlewares ----------------- */
 

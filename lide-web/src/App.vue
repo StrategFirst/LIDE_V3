@@ -1,9 +1,18 @@
 <template>
-	<router-view></router-view>
+	<div>
+		<router-view></router-view>
+		<BetaInfo />
+	</div>
 </template>
 
 <script>
-export default {};
+import BetaInfo from './components/banner/BetaInfo.vue';
+
+export default {
+	components:{
+		BetaInfo,
+	}
+};
 </script>
 
 <style>

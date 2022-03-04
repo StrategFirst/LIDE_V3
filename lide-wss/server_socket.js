@@ -16,9 +16,9 @@ const server = https.createServer({
 });
 const wss = new WebSocket.Server( { server } );
 server.listen( server_port );
-wss.on('connection', function ( clientSocket ) {
+wss.on('connection', function ( clientSocket , request ) {
 
-	const logger = new Logger();
+	const logger = new Logger(request.socket.remoteAddress.match(/([0-9]{1,3}\.){3}([0-9]{1,3})/)[0]);
 
 	logger.log("connected");
 
@@ -74,7 +74,7 @@ wss.on('connection', function ( clientSocket ) {
 						logger.log("Too much output from this container");
 						maxOutputLengthReached = true;
 
-						cliebtSocket.send(" -- Détection de boucle infinie. -- ");
+						clientSocket.send(" -- Détection de boucle infinie. -- ");
 						dockerSocket.close();
 						clientSocket.close();
 						delete dockerSocket;
@@ -101,6 +101,6 @@ wss.on( 'close' , function close() {
 });
 
 
-console.log( Logger.now() , `WebSocketServer listening on port ${server_port} `);
+Logger.init( `WebSocketServer listening on port ${server_port} ` );
 
 

@@ -18,10 +18,10 @@ const actions = {
 
 const mutations = {
     AJOUT_NOTIF(state, {texte,type}) {
-        state.texte = texte;
+        state.push({texte,type});
     },
     RETRAIT_NOTIF(state, _) {
-        state.couleur = couleur;
+        state.pop();
     },
 }
 

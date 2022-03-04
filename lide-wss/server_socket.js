@@ -18,7 +18,7 @@ const wss = new WebSocket.Server( { server } );
 server.listen( server_port );
 wss.on('connection', function ( clientSocket , request ) {
 
-	const logger = new Logger(request.socket.remoteAddress);
+	const logger = new Logger(request.socket.remoteAddress.match(/([0-9]{1,3}\.){3}([0-9]{1,3})/)[0]);
 
 	logger.log("connected");
 

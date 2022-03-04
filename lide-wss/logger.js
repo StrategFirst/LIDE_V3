@@ -15,7 +15,7 @@ class Logger {
 
 	constructor(IP) {
 		this.ID = ( count_id = ( count_id + 1 ) % 9999 );
-		this.IP = IP;
+		this.IP = IP.padStart(15,' ');
 		Object.keys( console ).filter( fnName => ['log','error'].indexOf( fnName ) == -1 ).forEach( fonction => this[ fonction ] = console[ fonction ] );
 	}
 

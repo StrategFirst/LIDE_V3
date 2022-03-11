@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const privateKey = process.env.JWT_PRIVATE_KEY;
 
-const duration = '1h';
+const duration = '2h';
 
 exports.generate = (username) => {
   return jwt.sign({username: username}, privateKey, {expiresIn: duration});

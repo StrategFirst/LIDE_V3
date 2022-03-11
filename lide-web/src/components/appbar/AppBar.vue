@@ -10,6 +10,14 @@
     <v-spacer></v-spacer>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
+        <v-btn v-bind="attrs" v-on="on" @click="openDrawerEnonce" icon>
+          <v-icon color="white">mdi-file-pdf-box</v-icon>
+        </v-btn>
+      </template>
+      <span>Énoncé</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" @click="openDrawerHelp" icon>
           <v-icon color="white">mdi-help-circle-outline</v-icon>
         </v-btn>
@@ -25,7 +33,7 @@
       <span>Paramètres</span>
     </v-tooltip>
 
-    <v-menu offset-y>
+    <v-menu offset-y class="menu-connexion">
       <template v-slot:activator="{ on, attrs }">
         <v-btn class="ml-10 mr-2" icon x-large v-bind="attrs" v-on="on">
           <v-avatar color="white" size="38">
@@ -93,8 +101,15 @@ export default {
     openDrawerHelp: function () {
       this.$store.dispatch("drawer/openHelpDrawer");
     },
+    openDrawerEnonce: function () {
+      this.$store.dispatch("drawer/openEnonceTDTPDrawer");
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.menu-connexion {
+	z-index: 99;
+}
+</style>

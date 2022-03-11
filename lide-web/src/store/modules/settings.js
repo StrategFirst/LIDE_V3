@@ -6,6 +6,7 @@ const state = () => ({
     theme: "base16-dark",
     terminalTheme: "#ffffff",
     ideTheme: "dark",
+    enoncePanelWidth: 20,
     themes: [
         "default",
         "3024-day",
@@ -83,6 +84,9 @@ const state = () => ({
 });
 
 const getters = {
+    enoncePanelWidth(state) {
+        return state.enoncePanelWidth;
+    },
     darkMode(state) {
         return state.darkMode;
     },
@@ -108,6 +112,9 @@ const getters = {
 }
 
 const actions = {
+    setEnoncePanelWidth({ commit }, size) {
+        commit('SET_ENONCEPANELWIDTH', size);
+    },
     setDarkMode({ commit }, darkMode) {
         commit('SET_DARKMODE', darkMode);
     },
@@ -146,7 +153,10 @@ const mutations = {
     },
     SET_IDE_THEME(state, ideTheme) {
         state.ideTheme = ideTheme;
-    }
+    },
+    SET_ENONCEPANELWIDTH(state, size) {
+       state.enoncePanelWidth = size;
+    },
 }
 
 export default {

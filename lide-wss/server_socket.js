@@ -77,7 +77,6 @@ wss.on('connection', function ( clientSocket , request ) {
 						clientSocket.send(" -- Détection de boucle infinie. -- ");
 						dockerSocket.close();
 						clientSocket.close();
-						delete dockerSocket;
 					}
 				}
 			});
@@ -102,5 +101,3 @@ wss.on( 'close' , function close() {
 
 
 Logger.init( `WebSocketServer listening on port ${server_port} ` );
-
-

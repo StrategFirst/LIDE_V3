@@ -8,23 +8,23 @@ const getters = {}
 
 /* ------------------------- FILE ACTIONS ------------------------- */
 const actions = {
-    // (Tanguy) Crée un fichier puis retourne un objet de type 'file' qui est contenu dans une promise donc 'res' 
-    // contient une promise, je retourne une promise car une promise contient un status ce qui me permet de 
-    // comparer dans 'TreeviewExplorer' si le back a réussi à créer un fichier ou non  
+    // (Tanguy) Crée un fichier puis retourne un objet de type 'file' qui est contenu dans une promise donc 'res'
+    // contient une promise, je retourne une promise car une promise contient un status ce qui me permet de
+    // comparer dans 'TreeviewExplorer' si le back a réussi à créer un fichier ou non
     async create({ dispatch, rootState }, { projectid, filename, extension }) {
         return await FileService.create(projectid, filename, extension, rootState.user.username ).then(res => {
-            dispatch("project/fetchProjects", null, { root: true }); 
-            return res;   
+            dispatch("project/fetchProjects", null, { root: true });
+            return res;
         });
     },
 
-    // (Tanguy) Le fonctionnement de cette fonction reste similaire à la fonction create qui est juste au-dessus sauf 
-    // qu'ici je vérifie qu'un tab(onglet) est présente pour le renommer  
+    // (Tanguy) Le fonctionnement de cette fonction reste similaire à la fonction create qui est juste au-dessus sauf
+    // qu'ici je vérifie qu'un tab(onglet) est présente pour le renommer
     async rename({ dispatch, rootState }, { fileid, newfilename, extension }) {
         return await FileService.rename(fileid, newfilename, extension, rootState.user.username )
                 .then(async (res) => {
                     if(res.status == 200){
-                        let tab = await dispatch("tab/getTab", fileid, { root: true });7
+                        let tab = await dispatch("tab/getTab", fileid, { root: true });
                         // on renomme la tab uniquement si elle est ouverte
                         if(tab){
                             dispatch("tab/updateTabFileName", { tab: tab, newfilename: newfilename }, { root: true });

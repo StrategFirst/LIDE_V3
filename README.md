@@ -1,7 +1,7 @@
 <div align="center" style="text-align: center;">
 	<h1> LIDE </h1>
 
-	[![DeepScan grade](https://deepscan.io/api/teams/17848/projects/21192/branches/600823/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=17848&pid=21192&bid=600823)
+[![DeepScan grade](https://deepscan.io/api/teams/17848/projects/21192/branches/600823/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=17848&pid=21192&bid=600823)
 </div>
 
 Ce projet est issu d'un projet étudiants de l'Université d'Angers et repris par quelques étudiants pour le tutorat. Il consiste en une interface avec de multiple fonctionnalité de développement en ligne dans le navigateur, sans installation pour tous les étudiants et enseignants de l'université.
@@ -61,6 +61,7 @@ docker-compose down
 Le site sera ensuite disponible sur [https://localhost/](https://localhost/)
 
 Assurez-vous que les ports utilisé par LIDE soit disponible sur votre machine.
+
 _Par défaut il s'agit des ports 443,10000,10001_
 
 ## Architecture

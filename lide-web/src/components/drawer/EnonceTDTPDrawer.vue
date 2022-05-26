@@ -28,15 +28,38 @@
 		<v-row justify="center">
 			<v-col cols="18">
 				<v-select
-					class="mx-3 my-1"
+					class="mx-2"
+					v-model="selectedNiveau"
+					:items="enonces"
+					dense
+					outlined
+					label="Niveau"
+					@change="setEnonce"
+				></v-select>
+			</v-col>
+			<v-col cols="18">
+				<v-select
+					class="mx-2"
+					v-model="selectedMatiere"
+					:items="enonces"
+					dense
+					outlined
+					label="Matière"
+					@change="setEnonce"
+				></v-select>
+			</v-col>
+			<v-col cols="18">
+				<v-select
+					class="mx-2"
 					v-model="selectedEnonce"
 					:items="enonces"
 					dense
 					outlined
-					label="Choisissez l'énoncé à afficher."
+					label="Sujet"
 					@change="setEnonce"
 				></v-select>
 			</v-col>
+
 		</v-row>
 		<iframe
 			:src="pathToEnonce" >
@@ -68,6 +91,22 @@ export default {
 			},
 		},
 
+                selectedNiveau: {
+                        get() {
+                                return this.enonceShown;
+                        },
+                        set(val) {
+                                return val;
+                        },
+                },
+                selectedMatiere: {
+                        get() {
+                                return this.enonceShown;
+                        },
+                        set(val) {
+                                return val;
+                        },
+                },
                 selectedEnonce: {
                         get() {
                                 return this.enonceShown;

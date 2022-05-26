@@ -61,6 +61,7 @@ docker-compose down
 Le site sera ensuite disponible sur [https://localhost/](https://localhost/)
 
 Assurez-vous que les ports utilisé par LIDE soit disponible sur votre machine.
+
 _Par défaut il s'agit des ports 443,10000,10001_
 
 ## Architecture

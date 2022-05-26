@@ -42,6 +42,7 @@
       <Notification />
       <SettingDrawer />
       <HelpDrawer />
+      <EnonceTDTPDrawer />
     </v-main>
   </v-app>
 </template>
@@ -53,6 +54,7 @@ import Editor from "../components/editor/Editor";
 import Terminal from "../components/terminal/Terminal";
 import ActionTerminal from "../components/terminal/ActionTerminal";
 import SettingDrawer from "../components/drawer/SettingDrawer";
+import EnonceTDTPDrawer from "../components/drawer/EnonceTDTPDrawer";
 import HelpDrawer from "../components/drawer/HelpDrawer";
 import Notification from "../components/utils/Notification";
 
@@ -69,6 +71,7 @@ export default {
     SettingDrawer,
     HelpDrawer,
     Notification,
+    EnonceTDTPDrawer,
   },
   data: () => ({
     explorerDrawer: null,
@@ -84,7 +87,7 @@ export default {
 </script>
 
 <style scoped>
-.drawer-setting {
+.drawer-setting, .drawer-enoncetdtp {
   z-index: 10;
 }
 </style>

@@ -58,7 +58,7 @@
 							<v-btn icon v-bind="attrs" v-on="on">
 								<v-icon>mdi-dots-vertical</v-icon>
 							</v-btn>
-						</template>	
+						</template>
 						<v-list>
 							<!-- (Tanguy) Ajout de file.extension -->
 							<v-list-item
@@ -346,8 +346,8 @@ export default {
 
 			if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
 				// (Tanguy) Il n'y a plus de catch car le back retourne une erreur et celle-ci refuse
-				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise' 
-				const fileId = await this.$store
+				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise'
+				await this.$store
 					.dispatch("file/create", { projectid, filename, extension })
 					.then((res) => {
 						// Status Ok
@@ -390,7 +390,7 @@ export default {
 		renameFile: async function () {
 			if (this.$refs.fichierRenameForm.validate() && this.newfilename != "") {
 				// (Tanguy) Il n'y a plus de catch car le back retourne une erreur celle-ci refuse
-				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise' 
+				// d'aller dans le catch par conséquent dans le 'then' je compare le status de la 'promise'
 				await this.$store
 					.dispatch("file/rename", {
 						fileid: this.selectedFileId,

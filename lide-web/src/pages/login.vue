@@ -33,7 +33,7 @@
 					<v-col
 						cols="1"
 						>
-						<v-btn 
+						<v-btn
 							color="light-grey"
 							class="font-weight-bold"
 							@click="foldback()"
@@ -54,7 +54,6 @@
 
 <script>
 
-import AppBar from "../components/appbar/AppBar";	
 import Notification from "../components/utils/Notification";
 
 export default {

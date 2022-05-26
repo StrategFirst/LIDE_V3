@@ -8,16 +8,6 @@ const FileService = require('../services/db/file.service');
 exports.getExport = async (req, res) => {
 
 	const username = req.params.username;
-	let mode;
-	switch( req.query.type.toLowerCase() ) {
-		case 'tgz':
-			mode = 'tgz';
-			break;
-		case 'zip':
-		default:
-			mode: 'zip';
-			break;
-	}
 
 	try {
 		let result = await UserService.getProjects(username);
@@ -47,6 +37,7 @@ exports.getExport = async (req, res) => {
 				execSync(`tar -zcvf /lide-export/${username}.tgz /lide-export/${username}/*`);
 				res.send(`/lide-export/${username}.tgz`);
 				execSync(`rm -rf /lide-export/${username}/`);
+			break;
 			case 'zip':
 			default:
 				execSync(`zip -r /lide-export/${username}.zip /lide-export/${username}/`);

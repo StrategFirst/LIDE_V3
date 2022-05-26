@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
 			req.user = result;
 			next();
 		} else {
-			res.send( 403 );
+			res.sendStatus( 403 );
 		}
 	} catch( err ) {
 		next( err );

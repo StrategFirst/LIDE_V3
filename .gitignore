@@ -3,3 +3,5 @@
 package-lock.json
 .idea/
 HTTPS_CREDENTIALS
+lide-web/public/enonce/
+.env

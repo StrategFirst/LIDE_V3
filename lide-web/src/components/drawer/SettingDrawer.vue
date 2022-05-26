@@ -58,6 +58,16 @@
 					thumb-label
 					@change="setIndentation"
 				></v-slider>
+				<v-slider
+					v-model="selectedEnoncePanelSize"
+					color="primary"
+					label="Enonce panel size"
+					min="0"
+					max="50"
+					thumb-label
+					@change="setEnoncePanelWidth"
+				></v-slider>
+
 			</v-col>
 		</v-row>
 	</v-navigation-drawer>
@@ -80,7 +90,16 @@ export default {
 			themes: (state) => state.settings.themes,
 			ideTheme: (state) => state.settings.ideTheme,
 			selectIdeBis: (state) => state.settings.selectIdeBis,
+			enoncePanelSize: (state) => state.settings.enoncePannelSize,
 		}),
+		selectedEnoncePanelSize: {
+			get() {
+				return this.enoncePanelSize;
+			},
+			set(val) {
+				return val;
+			}
+		},
 		settingDrawerStatus: {
 			get() {
 				return this.settingDrawer;
@@ -149,6 +168,10 @@ export default {
 
 		setIndentation(value) {
 			this.$store.dispatch("settings/setIndentation", value);
+		},
+
+		setEnoncePanelWidth(value) {
+			this.$store.dispatch("settings/setEnoncePanelWidth", value);
 		},
 /*
 		darkMode() {

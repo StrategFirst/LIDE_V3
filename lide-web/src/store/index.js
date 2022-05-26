@@ -11,7 +11,7 @@ import notification from "./modules/notification"
 import file from "./modules/file"
 import tab from "./modules/tab"
 import settings from "./modules/settings"
-
+import enonce from "./modules/enonce"
 import mail from "./modules/mail"
 
 Vue.use(Vuex);
@@ -27,6 +27,7 @@ const store = new Vuex.Store({
         tab,
         settings,
         mail,
+        enonce,
     },
     plugins: [createPersistedState()],
 })

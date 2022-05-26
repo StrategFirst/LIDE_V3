@@ -49,7 +49,7 @@ docker-compose down
 
 Assurez vous que les ports utilisé par LIDE soit disponible sur votre machine.
 # Architecture du projet
- ![architecture macro de l'application](documents/architecture_generale.png "Architecture macro de l'application")  
+ ![Architecture de l'application](documents/architecture_app.svg)  
 
 # Technologies
 

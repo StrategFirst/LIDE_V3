@@ -1,18 +1,27 @@
 <div align="center" style="text-align: center;">
 	<h1> LIDE </h1>
 
-[![DeepScan grade](https://deepscan.io/api/teams/17848/projects/21192/branches/600823/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=17848&pid=21192&bid=600823)
+	[![DeepScan grade](https://deepscan.io/api/teams/17848/projects/21192/branches/600823/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=17848&pid=21192&bid=600823)
 </div>
 
 Ce projet est issu d'un projet étudiants de l'Université d'Angers et repris par quelques étudiants pour le tutorat. Il consiste en une interface avec de multiple fonctionnalité de développement en ligne dans le navigateur, sans installation pour tous les étudiants et enseignants de l'université.
+
+## Table des matières
+ - [Installation 🛠️](#Installation)
+ - [Utilisation 🚀](#Utilisation)
+ - [Architecture ⚙️](#Architecture)
+ - [Technologies 🧱](#Technologies)
 
 ## Installation
 
 ### 1️⃣ Installation de docker
 
 Ce projet utilise docker et docker-compose, pour les installer :
-- [Docker Engine](https://docs.docker.com/engine/install/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+| Dépendances | version minimum | version recommandé |
+|-------------|-----------------|--------------------|
+| [Docker Engine](https://docs.docker.com/engine/install/) | 20.0.0 | 20.10.14 |
+| [Docker Compose](https://docs.docker.com/compose/install/) | 1.27.0 | 1.29.2 |
+
 
 Ce projet utilise aussi l'API de docker, il faut donc l'activer, sous debian :
 ```bash
@@ -49,11 +58,16 @@ docker-compose up -d
 docker-compose down
 ```
 
-Assurez vous que les ports utilisé par LIDE soit disponible sur votre machine.
-# Architecture du projet
+Le site sera ensuite disponible sur [https://localhost/](https://localhost/)
+
+Assurez-vous que les ports utilisé par LIDE soit disponible sur votre machine.
+_Par défaut il s'agit des ports 443,10000,10001_
+
+## Architecture
+
  ![Architecture de l'application](documents/architecture_app.svg)  
 
-# Technologies
+## Technologies
 
  Le projet s'articule autour de plusieurs technologies. Voici les principales :  
 

@@ -4,6 +4,32 @@
 [![DeepScan grade](https://deepscan.io/api/teams/17848/projects/21192/branches/600823/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=17848&pid=21192&bid=600823)
 </div>
 
+
+<div align="center" style="text-align: center;">
+<h2 color="red" style="color:red;">ARCHIVED</h1>
+</div>
+
+*TL DR: For several reasons this project will be archived and no longer maintained.*
+
+The V3 of LIDE as reach the end of his life.
+
+###### Goals
+The project has reached many goals from being the first version of it deployed and used in the real world for a real usage for real course with real students, linked to the real university backends. This project in the end has been used by a bit more than an hundred unique students and a few teachers. The project also fixed a lot of security issues, take a lot of feedback from all users, it helps me learn a lot also.
+
+###### Thanks
+I would like to thanks every one who use this platform, especially if you gave feedback. Thanks also to Matéo, Victor and Alexandre who followed me using this platform during our course we teach. Thanks to the teachers who put any interest and time in this project. And a very special thanks to Tanguy (@tanguy-sudo) who supports me and gave me the original opportunity to start this adventure.
+
+###### Reason
+This project version is stopped for a lot of reasons, i will be short and ingore some of them. I'm no longer part of the university were this project belongs to, this project was a lot of fun and learn me a lot but takes a lot of my personnal time to maintain, update and upgrade. Some of the teachers discouraged me from upgrading this project and forward it to the next generation.
+
+###### V4 ?
+If for any reasons you would like to make this project come back to life, re-deploy it,
+re maintain it, etc. Feal free to do so, just keep it free, for the university of angers or any other public university, and i'm not responsible for anything occuring with this project anymore. If you need help feel free to message me.  
+
+Thanks.
+
+<hr/>
+
 Ce projet est issu d'un projet étudiants de l'Université d'Angers et repris par quelques étudiants pour le tutorat. Il consiste en une interface avec de multiple fonctionnalité de développement en ligne dans le navigateur, sans installation pour tous les étudiants et enseignants de l'université.
 
 ## Table des matières
